@@ -94,7 +94,7 @@
     </TextCard>
     <TextCard title="ソースコードについて">
       本サイトのソースコードはMITライセンスで公開されており、誰でも自由に利用することができます。詳しくは、<a
-        href="https://github.com/ICT-LABO/covid19"
+        href="https://github.com/CODE-for-GIFU/covid19"
         target="_blank"
         rel="noopener"
         >GitHub リポジトリ</a
