@@ -40,7 +40,6 @@ $ docker-compose up --build
 ```
 
 ### Deployment to Development & Production Environments / 開発・本番環境への反映
+`master` ブランチがアップデートされると、自動的に `production` ブランチにHTML類がbuildされます。そして、本番サイト https://covid19-gifu.netlify.com が更新されます。
 
-`master` ブランチがアップデートされると、自動的に本番サイトが [https://covid19-gifu.netlify.com](https://covid19-gifu.netlify.com) 更新されます。
-
-`develop` ブランチがアップデートされると、自動的に開発用サイト [https://dev-covid19-gifu.netlify.com](https://dev-covid19-gifu.netlify.com) が更新されます。
+`development` ブランチがアップデートされると、自動的に `dev-pages` ブランチにHTML類がbuildされます。そして、開発用サイト https://dev-covid19-gifu.netlify.com が更新されます。
