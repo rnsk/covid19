@@ -105,6 +105,7 @@ import formatConfirmedCases from '@/utils/formatConfirmedCases'
 import News from '@/data/news.json'
 import SvgCard from '@/components/SvgCard.vue'
 import ConfirmedCasesTable from '@/components/ConfirmedCasesTable.vue'
+import axios from 'axios'
 
 export default {
   components: {
@@ -117,6 +118,10 @@ export default {
     DataTable,
     SvgCard,
     ConfirmedCasesTable
+  },
+  async asyncData ({}) {
+    let data = await axios.get("https://spreadsheets.google.com/feeds/list/1O5hfDv0hmbMQtq8T4102HPkEUs24NQKp6Ps0Y4IVpHI/od6/public/values?alt=json")
+        return {newsItems: data.data.feed.entry}
   },
   data() {
     // 感染者数グラフ
