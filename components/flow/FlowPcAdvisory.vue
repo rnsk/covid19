@@ -36,7 +36,7 @@
               target="_blank"
               rel="noopener"
             >
-              <span>{{ $t('各保健所の電話番号は福祉保健局HPへ') }}</span>
+              <span>{{ $t('各保健所の電話番号は岐阜県公式HPへ') }}</span>
               <v-icon size="18">
                 mdi-open-in-new
               </v-icon>
