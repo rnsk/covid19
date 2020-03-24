@@ -119,18 +119,12 @@ export default {
     SvgCard,
     ConfirmedCasesTable
   },
-  computed: {
-    newsItems () {
-      return this.$store.state.news_list
-    }
-  },
-  mounted () {
+  created () {
     this.getNews()
   },
   methods: {
     async getNews () {
-      let news = await sheetApi.news();
-      this.$store.commit('news_list_update', news)
+      this.newsItems = await sheetApi.news()
     }
   },
   data() {
@@ -191,6 +185,7 @@ export default {
         title: '県内の最新感染動向',
         date: Data.lastUpdate
       },
+      newsItems: [],
       metroGraphOption: {
         responsive: true,
         legend: {
