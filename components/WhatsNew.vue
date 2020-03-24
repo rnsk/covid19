@@ -5,9 +5,9 @@
       最新のお知らせ
     </h2>
     <div v-for="(item, i) in items" :key="i">
-      <a class="WhatsNew-item" :href="item.gsx$url.$t" target="_blank" rel="noopener">
-        <time class="WhatsNew-item-time px-2">{{ item.gsx$date.$t }}</time>
-        <span class="WhatsNew-item-link">{{ item.gsx$title.$t }}</span>
+      <a class="WhatsNew-item" :href="item.url" target="_blank" rel="noopener">
+        <time class="WhatsNew-item-time px-2">{{ item.date }}</time>
+        <span class="WhatsNew-item-link">{{ item.text }}</span>
       </a>
     </div>
   </div>
@@ -17,7 +17,7 @@
 export default {
   props: {
     items: {
-      type: Array,
+      type: Object,
       required: true
     }
   }

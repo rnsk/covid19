@@ -106,7 +106,6 @@ import News from '@/data/news.json'
 import SvgCard from '@/components/SvgCard.vue'
 import ConfirmedCasesTable from '@/components/ConfirmedCasesTable.vue'
 import sheetApi from '@/api/sheet'
-import {mapState} from 'vuex';
 
 export default {
   components: {
@@ -120,11 +119,20 @@ export default {
     SvgCard,
     ConfirmedCasesTable
   },
-  async fetch({store}) {
-    let json = await sheetApi.news();
-    store.commit('news_list_update', json)
+  computed: {
+    newsItems () {
+      return this.$store.state.news_list
+    }
   },
-  computed: mapState(['newsItems']),
+  mounted () {
+    this.getNews()
+  },
+  methods: {
+    async getNews () {
+      let news = await sheetApi.news();
+      this.$store.commit('news_list_update', news)
+    }
+  },
   data() {
     // 感染者数グラフ
     const patientsGraph = formatGraph(Data.patients_summary.data)
