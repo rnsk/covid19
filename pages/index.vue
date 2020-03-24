@@ -105,6 +105,7 @@ import formatConfirmedCases from '@/utils/formatConfirmedCases'
 import News from '@/data/news.json'
 import SvgCard from '@/components/SvgCard.vue'
 import ConfirmedCasesTable from '@/components/ConfirmedCasesTable.vue'
+import sheetApi from '@/api/sheet'
 
 export default {
   components: {
@@ -117,6 +118,14 @@ export default {
     DataTable,
     SvgCard,
     ConfirmedCasesTable
+  },
+  created () {
+    this.getNews()
+  },
+  methods: {
+    async getNews () {
+      this.newsItems = await sheetApi.news()
+    }
   },
   data() {
     // 感染者数グラフ
@@ -176,7 +185,7 @@ export default {
         title: '県内の最新感染動向',
         date: Data.lastUpdate
       },
-      newsItems: News.newsItems,
+      newsItems: [],
       metroGraphOption: {
         responsive: true,
         legend: {
