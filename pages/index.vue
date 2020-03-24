@@ -105,7 +105,8 @@ import formatConfirmedCases from '@/utils/formatConfirmedCases'
 import News from '@/data/news.json'
 import SvgCard from '@/components/SvgCard.vue'
 import ConfirmedCasesTable from '@/components/ConfirmedCasesTable.vue'
-import axios from 'axios'
+import sheetApi from '@/api/sheet'
+import {mapState} from 'vuex';
 
 export default {
   components: {
@@ -119,10 +120,11 @@ export default {
     SvgCard,
     ConfirmedCasesTable
   },
-  async asyncData ({}) {
-    let data = await axios.get("https://spreadsheets.google.com/feeds/list/1O5hfDv0hmbMQtq8T4102HPkEUs24NQKp6Ps0Y4IVpHI/od6/public/values?alt=json")
-        return {newsItems: data.data.feed.entry}
+  async fetch({store}) {
+    let json = await sheetApi.news();
+    store.commit('news_list_update', json)
   },
+  computed: mapState(['newsItems']),
   data() {
     // 感染者数グラフ
     const patientsGraph = formatGraph(Data.patients_summary.data)
@@ -181,7 +183,6 @@ export default {
         title: '県内の最新感染動向',
         date: Data.lastUpdate
       },
-      newsItems: News.newsItems,
       metroGraphOption: {
         responsive: true,
         legend: {
