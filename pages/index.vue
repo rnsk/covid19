@@ -9,11 +9,11 @@
       :btn-text="'相談の手順を見る'"
     />
     <v-row class="DataBlock">
-      <!-- <v-col cols="12" md="6" class="DataCard">
-        <svg-card title="検査陽性者の状況" :title-id="'details-of-confirmed-cases'" :date="headerItem.date">
+      <v-col cols="12" md="6" class="DataCard">
+        <svg-card v-if="confirmed.loaded" title="検査陽性者の状況" :title-id="'details-of-confirmed-cases'" :date="headerItem.date">
           <confirmed-cases-table v-bind="confirmedCases" />
         </svg-card>
-      </v-col> -->
+      </v-col>
       <v-col cols="12" md="6" class="DataCard">
         <time-bar-chart
           v-if="patients_summary.loaded"
@@ -71,7 +71,6 @@ import ConfirmedCasesTable from '@/components/ConfirmedCasesTable.vue'
 import formatGraph from '@/utils/formatGraph'
 import formatTable from '@/utils/formatTable'
 import formatConfirmedCases from '@/utils/formatConfirmedCases'
-import Data from '@/data/data.json'
 import sheetApi from '@/api/sheet'
 
 export default {
@@ -93,10 +92,11 @@ export default {
       this.newsItems = await sheetApi.news()
     },
     async getData () {
-      this.graphData = await sheetApi.graphData().then(response => {
+      await sheetApi.graphData().then(response => {
         this.getPatientsTableData(response)
         this.getPatientsData(response)
         this.getInspectionsData(response)
+        this.getConfirmedData(response)
         this.headerItem.date = response.lastUpdate
       })
     },
@@ -122,11 +122,12 @@ export default {
       this.inspections.last_update = response.inspections_summary.date
       this.inspections.loaded = true
     },
+    getConfirmedData (response) {
+      this.confirmedCases = formatConfirmedCases(response.main_summary)
+      this.confirmed.loaded = true
+    },
   },
   data() {
-    // // 検査陽性者の状況
-    // const confirmedCases = formatConfirmedCases(Data.main_summary)
-
     const data = {
       patients: {
         loaded: false,
@@ -140,6 +141,9 @@ export default {
         loaded: false,
         last_update: "",
       },
+      confirmed: {
+        loaded: false
+      },
       /**
        * 全体の最終更新日
        */
@@ -150,7 +154,7 @@ export default {
       patientsTable: {},
       patientsGraph: [],
       inspectionsGraph: [],
-      confirmedCases: [],
+      confirmedCases: {},
       sumInfoOfPatients: {},
       headerItem: {
         icon: 'mdi-chart-timeline-variant',
