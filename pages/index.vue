@@ -28,20 +28,21 @@
           "
         />
       </v-col>
-      <!-- <v-col cols="12" md="6" class="DataCard">
+      <v-col cols="12" md="6" class="DataCard">
         <data-table
+          v-if="patients.loaded"
           :title="'陽性患者の属性'"
           :title-id="'attributes-of-confirmed-cases'"
           :chart-data="patientsTable"
           :chart-option="{}"
-          :date="Data.patients.date"
+          :date="patients.date"
           :info="sumInfoOfPatients"
           :url="
             'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html'
           "
         />
       </v-col>
-      <v-col cols="12" md="6" class="DataCard">
+      <!-- <v-col cols="12" md="6" class="DataCard">
         <time-bar-chart
           title="検査実施数"
           :title-id="'number-of-tested'"
@@ -84,11 +85,18 @@ export default {
   },
   created () {
     this.getNews()
+    this.getPatientsTableData()
     this.getPatientsData()
   },
   methods: {
     async getNews () {
       this.newsItems = await sheetApi.news()
+    },
+    async getPatientsTableData () {
+      let patientsTable = await sheetApi.patientsTable()
+      this.patientsTable = formatTable(patientsTable.data)
+      this.patients.date = patientsTable.date
+      this.patients.loaded = true
     },
     async getPatientsData () {
       let patientsData = await sheetApi.patientsGraph()
@@ -105,8 +113,6 @@ export default {
     }
   },
   data() {
-    // // 感染者数
-    // const patientsTable = formatTable(Data.patients.data)
     // // 退院者グラフ
     // const dischargesGraph = formatGraph(Data.discharges_summary.data)
     // // 検査実施日別状況
@@ -115,6 +121,10 @@ export default {
     // const confirmedCases = formatConfirmedCases(Data.main_summary)
 
     const data = {
+      patients: {
+        loaded: false,
+        date: "",
+      },
       patients_summary: {
         loaded: false,
         date: "",
