@@ -42,19 +42,20 @@
           "
         />
       </v-col>
-      <!-- <v-col cols="12" md="6" class="DataCard">
+      <v-col cols="12" md="6" class="DataCard">
         <time-bar-chart
+          v-if="inspections.loaded"
           title="検査実施数"
           :title-id="'number-of-tested'"
           :chart-id="'time-bar-chart-inspections'"
           :chart-data="inspectionsGraph"
-          :date="Data.inspections_summary.date"
+          :date="inspections.date"
           :unit="'件'"
           :url="
             'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.data/200312-2.pdf'
           "
         />
-      </v-col> -->
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -95,6 +96,7 @@ export default {
       this.graphData = await sheetApi.graphData()
       this.getPatientsTableData()
       this.getPatientsData()
+      this.getInspectionsData()
     },
     getPatientsTableData () {
       this.patientsTable = formatTable(this.graphData.patients.data)
@@ -112,13 +114,14 @@ export default {
         sText: this.patientsGraph[this.patientsGraph.length - 1].label + 'の累計',
         unit: '人'
       }
-    }
+    },
+    getInspectionsData () {
+      this.inspectionsGraph = formatGraph(this.graphData.inspections_summary.data)
+      this.inspections.date = this.graphData.inspections_summary.date
+      this.inspections.loaded = true
+    },
   },
   data() {
-    // // 退院者グラフ
-    // const dischargesGraph = formatGraph(Data.discharges_summary.data)
-    // // 検査実施日別状況
-    // const inspectionsGraph = formatGraph(Data.inspections_summary.data)
     // // 検査陽性者の状況
     // const confirmedCases = formatConfirmedCases(Data.main_summary)
 
@@ -131,6 +134,10 @@ export default {
         loaded: false,
         date: "",
       },
+      inspections: {
+        loaded: false,
+        last_update: "",
+      },
       /**
        * 全体の最終更新日
        */
@@ -141,7 +148,6 @@ export default {
       graphData: {},
       patientsTable: {},
       patientsGraph: [],
-      dischargesGraph: [],
       inspectionsGraph: [],
       confirmedCases: [],
       sumInfoOfPatients: {},
