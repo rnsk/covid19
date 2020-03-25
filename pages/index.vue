@@ -9,25 +9,26 @@
       :btn-text="'相談の手順を見る'"
     />
     <v-row class="DataBlock">
-      <v-col cols="12" md="6" class="DataCard">
+      <!-- <v-col cols="12" md="6" class="DataCard">
         <svg-card title="検査陽性者の状況" :title-id="'details-of-confirmed-cases'" :date="headerItem.date">
           <confirmed-cases-table v-bind="confirmedCases" />
         </svg-card>
-      </v-col>
+      </v-col> -->
       <v-col cols="12" md="6" class="DataCard">
         <time-bar-chart
+          v-if="patients_summary.loaded"
           title="陽性患者数"
           :title-id="'number-of-confirmed-cases'"
           :chart-id="'time-bar-chart-patients'"
           :chart-data="patientsGraph"
-          :date="Data.patients.date"
+          :date="patients_summary.date"
           :unit="'人'"
           :url="
             'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html'
           "
         />
       </v-col>
-      <v-col cols="12" md="6" class="DataCard">
+      <!-- <v-col cols="12" md="6" class="DataCard">
         <data-table
           :title="'陽性患者の属性'"
           :title-id="'attributes-of-confirmed-cases'"
@@ -52,7 +53,7 @@
             'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.data/200312-2.pdf'
           "
         />
-      </v-col>
+      </v-col> -->
     </v-row>
   </div>
 </template>
@@ -83,44 +84,58 @@ export default {
   },
   created () {
     this.getNews()
+    this.getPatientsData()
   },
   methods: {
     async getNews () {
       this.newsItems = await sheetApi.news()
+    },
+    async getPatientsData () {
+      let patientsData = await sheetApi.patientsGraph()
+      this.patientsGraph = formatGraph(patientsData.data)
+      this.patients_summary.date = patientsData.date
+      this.patients_summary.loaded = true
+      this.sumInfoOfPatients = {
+        lText: this.patientsGraph[
+          this.patientsGraph.length - 1
+        ].cumulative.toLocaleString(),
+        sText: this.patientsGraph[this.patientsGraph.length - 1].label + 'の累計',
+        unit: '人'
+      }
     }
   },
   data() {
-    // 感染者数グラフ
-    const patientsGraph = formatGraph(Data.patients_summary.data)
-    // 感染者数
-    const patientsTable = formatTable(Data.patients.data)
-    // 退院者グラフ
-    const dischargesGraph = formatGraph(Data.discharges_summary.data)
-    // 検査実施日別状況
-    const inspectionsGraph = formatGraph(Data.inspections_summary.data)
-    // 検査陽性者の状況
-    const confirmedCases = formatConfirmedCases(Data.main_summary)
-
-    const sumInfoOfPatients = {
-      lText: patientsGraph[
-        patientsGraph.length - 1
-      ].cumulative.toLocaleString(),
-      sText: patientsGraph[patientsGraph.length - 1].label + 'の累計',
-      unit: '人'
-    }
+    // // 感染者数
+    // const patientsTable = formatTable(Data.patients.data)
+    // // 退院者グラフ
+    // const dischargesGraph = formatGraph(Data.discharges_summary.data)
+    // // 検査実施日別状況
+    // const inspectionsGraph = formatGraph(Data.inspections_summary.data)
+    // // 検査陽性者の状況
+    // const confirmedCases = formatConfirmedCases(Data.main_summary)
 
     const data = {
-      Data,
-      patientsTable,
-      patientsGraph,
-      dischargesGraph,
-      inspectionsGraph,
-      confirmedCases,
-      sumInfoOfPatients,
+      patients_summary: {
+        loaded: false,
+        date: "",
+      },
+      /**
+       * 全体の最終更新日
+       */
+      last_update: "",
+      /**
+       * 各グラフ系のデータ整理後のデータ
+       */
+      patientsTable: {},
+      patientsGraph: [],
+      dischargesGraph: [],
+      inspectionsGraph: [],
+      confirmedCases: [],
+      sumInfoOfPatients: {},
       headerItem: {
         icon: 'mdi-chart-timeline-variant',
         title: '県内の最新感染動向',
-        date: Data.lastUpdate
+        // date: Data.lastUpdate
       },
       newsItems: [],
       metroGraphOption: {
