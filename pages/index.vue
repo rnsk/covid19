@@ -97,6 +97,7 @@ export default {
         this.getPatientsTableData(response)
         this.getPatientsData(response)
         this.getInspectionsData(response)
+        this.headerItem.date = response.lastUpdate
       })
     },
     getPatientsTableData (response) {
@@ -154,7 +155,7 @@ export default {
       headerItem: {
         icon: 'mdi-chart-timeline-variant',
         title: '県内の最新感染動向',
-        // date: Data.lastUpdate
+        date: ''
       },
       newsItems: [],
       metroGraphOption: {
