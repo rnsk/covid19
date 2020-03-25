@@ -93,19 +93,20 @@ export default {
       this.newsItems = await sheetApi.news()
     },
     async getData () {
-      this.graphData = await sheetApi.graphData()
-      this.getPatientsTableData()
-      this.getPatientsData()
-      this.getInspectionsData()
+      this.graphData = await sheetApi.graphData().then(response => {
+        this.getPatientsTableData(response)
+        this.getPatientsData(response)
+        this.getInspectionsData(response)
+      })
     },
-    getPatientsTableData () {
-      this.patientsTable = formatTable(this.graphData.patients.data)
-      this.patients.date = this.graphData.patients.date
+    getPatientsTableData (response) {
+      this.patientsTable = formatTable(response.patients.data)
+      this.patients.date = response.patients.date
       this.patients.loaded = true
     },
-    getPatientsData () {
-      this.patientsGraph = formatGraph(this.graphData.patients_summary.data)
-      this.patients_summary.date = this.graphData.patients_summary.date
+    getPatientsData (response) {
+      this.patientsGraph = formatGraph(response.patients_summary.data)
+      this.patients_summary.date = response.patients_summary.date
       this.patients_summary.loaded = true
       this.sumInfoOfPatients = {
         lText: this.patientsGraph[
@@ -115,9 +116,9 @@ export default {
         unit: '人'
       }
     },
-    getInspectionsData () {
-      this.inspectionsGraph = formatGraph(this.graphData.inspections_summary.data)
-      this.inspections.date = this.graphData.inspections_summary.date
+    getInspectionsData (response) {
+      this.inspectionsGraph = formatGraph(response.inspections_summary.data)
+      this.inspections.date = response.inspections_summary.date
       this.inspections.loaded = true
     },
   },
@@ -145,7 +146,6 @@ export default {
       /**
        * 各グラフ系のデータ整理後のデータ
        */
-      graphData: {},
       patientsTable: {},
       patientsGraph: [],
       inspectionsGraph: [],
