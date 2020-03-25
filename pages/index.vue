@@ -85,23 +85,25 @@ export default {
   },
   created () {
     this.getNews()
-    this.getPatientsTableData()
-    this.getPatientsData()
+    this.getData()
   },
   methods: {
     async getNews () {
       this.newsItems = await sheetApi.news()
     },
-    async getPatientsTableData () {
-      let patientsTable = await sheetApi.patientsTable()
-      this.patientsTable = formatTable(patientsTable.data)
-      this.patients.date = patientsTable.date
+    async getData () {
+      this.graphData = await sheetApi.graphData()
+      this.getPatientsTableData()
+      this.getPatientsData()
+    },
+    getPatientsTableData () {
+      this.patientsTable = formatTable(this.graphData.patients.data)
+      this.patients.date = this.graphData.patients.date
       this.patients.loaded = true
     },
-    async getPatientsData () {
-      let patientsData = await sheetApi.patientsGraph()
-      this.patientsGraph = formatGraph(patientsData.data)
-      this.patients_summary.date = patientsData.date
+    getPatientsData () {
+      this.patientsGraph = formatGraph(this.graphData.patients_summary.data)
+      this.patients_summary.date = this.graphData.patients_summary.date
       this.patients_summary.loaded = true
       this.sumInfoOfPatients = {
         lText: this.patientsGraph[
@@ -136,6 +138,7 @@ export default {
       /**
        * 各グラフ系のデータ整理後のデータ
        */
+      graphData: {},
       patientsTable: {},
       patientsGraph: [],
       dischargesGraph: [],
