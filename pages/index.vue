@@ -21,7 +21,7 @@
           :title-id="'number-of-confirmed-cases'"
           :chart-id="'time-bar-chart-patients'"
           :chart-data="patientsGraph"
-          :date="patients_summary.date"
+          :date="patients_summary.last_update"
           :unit="'人'"
           :url="
             'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html'
@@ -35,7 +35,7 @@
           :title-id="'attributes-of-confirmed-cases'"
           :chart-data="patientsTable"
           :chart-option="{}"
-          :date="patients.date"
+          :date="patients.last_update"
           :info="sumInfoOfPatients"
           :url="
             'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html'
@@ -49,7 +49,7 @@
           :title-id="'number-of-tested'"
           :chart-id="'time-bar-chart-inspections'"
           :chart-data="inspectionsGraph"
-          :date="inspections.date"
+          :date="inspections.last_update"
           :unit="'件'"
           :url="
             'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.data/200312-2.pdf'
@@ -101,12 +101,12 @@ export default {
     },
     getPatientsTableData (response) {
       this.patientsTable = formatTable(response.patients.data)
-      this.patients.date = response.patients.date
+      this.patients.last_update = response.patients.date
       this.patients.loaded = true
     },
     getPatientsData (response) {
       this.patientsGraph = formatGraph(response.patients_summary.data)
-      this.patients_summary.date = response.patients_summary.date
+      this.patients_summary.last_update = response.patients_summary.date
       this.patients_summary.loaded = true
       this.sumInfoOfPatients = {
         lText: this.patientsGraph[
@@ -118,7 +118,7 @@ export default {
     },
     getInspectionsData (response) {
       this.inspectionsGraph = formatGraph(response.inspections_summary.data)
-      this.inspections.date = response.inspections_summary.date
+      this.inspections.last_update = response.inspections_summary.date
       this.inspections.loaded = true
     },
   },
@@ -129,11 +129,11 @@ export default {
     const data = {
       patients: {
         loaded: false,
-        date: "",
+        last_update: "",
       },
       patients_summary: {
         loaded: false,
-        date: "",
+        last_update: "",
       },
       inspections: {
         loaded: false,
