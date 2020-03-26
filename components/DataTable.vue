@@ -3,7 +3,9 @@
     <template v-slot:button>
       <span />
     </template>
+    <pulse-loader v-if="!loaded" :loading="!loaded" color="#808080" />
     <v-data-table
+      v-else
       :headers="chartData.headers"
       :items="chartData.datasets"
       :items-per-page="-1"
@@ -13,7 +15,7 @@
       :mobile-breakpoint="0"
       class="cardTable"
     />
-    <template v-slot:infoPanel>
+    <template v-if="loaded" v-slot:infoPanel>
       <data-view-basic-info-panel
         :l-text="info.lText"
         :s-text="info.sText"
@@ -61,9 +63,10 @@
 <script>
 import DataView from '@/components/DataView.vue'
 import DataViewBasicInfoPanel from '@/components/DataViewBasicInfoPanel.vue'
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 export default {
-  components: { DataView, DataViewBasicInfoPanel },
+  components: { DataView, DataViewBasicInfoPanel, PulseLoader },
   props: {
     title: {
       type: String,
@@ -86,6 +89,11 @@ export default {
       type: String,
       required: false,
       default: ''
+    },
+    loaded: {
+      type: Boolean,
+      required: true,
+      default: false
     }
   }
 }
