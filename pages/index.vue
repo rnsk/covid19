@@ -52,6 +52,7 @@
           :chart-data="inspectionsGraph"
           :date="inspections.last_update"
           :unit="'件'"
+          :info="'注：3/24登録のデータは3/12-3/24までの累計です'"
           :url="
             'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.data/200312-2.pdf'
           "
