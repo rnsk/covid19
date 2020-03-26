@@ -11,10 +11,19 @@
         :unit="displayInfo.unit"
       />
     </template>
+   <p class="Graph-Desc">{{info}}</p>
   </data-view>
 </template>
 
-<style></style>
+<style lang="scss" scoped>
+  .Graph-Desc {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 0;
+    font-size: 12px;
+    color: $gray-3;
+}
+</style>
 
 <script>
 import DataView from '@/components/DataView.vue'
@@ -45,6 +54,11 @@ export default {
       default: ''
     },
     url: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    info: {
       type: String,
       required: false,
       default: ''
