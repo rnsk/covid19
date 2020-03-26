@@ -150,6 +150,10 @@ export default {
         {
           title: this.$t('Government official website'),
           link: 'https://www.pref.gifu.lg.jp/'
+        },
+        {
+          title: this.$t('Other local Government'),
+          link: 'https://github.com/tokyo-metropolitan-gov/covid19/blob/development/FORKED_SITES.md'
         }
       ]
     }
