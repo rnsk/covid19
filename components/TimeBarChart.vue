@@ -3,26 +3,42 @@
     <template v-slot:button>
       <data-selector v-model="dataKind" />
     </template>
-    <bar :chart-data="displayData" :options="displayOption" :height="240" />
-    <template v-slot:infoPanel>
+    <pulse-loader v-if="!loaded" :loading="!loaded" color="#808080" />
+    <bar
+      v-else
+      :chart-data="displayData"
+      :options="displayOption"
+      :height="240"
+    />
+    <template v-if="loaded" v-slot:infoPanel>
       <data-view-basic-info-panel
         :l-text="displayInfo.lText"
         :s-text="displayInfo.sText"
         :unit="displayInfo.unit"
       />
     </template>
+   <p class="Graph-Desc">{{info}}</p>
   </data-view>
 </template>
 
-<style></style>
+<style lang="scss" scoped>
+  .Graph-Desc {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 0;
+    font-size: 12px;
+    color: $gray-3;
+}
+</style>
 
 <script>
 import DataView from '@/components/DataView.vue'
 import DataSelector from '@/components/DataSelector.vue'
 import DataViewBasicInfoPanel from '@/components/DataViewBasicInfoPanel.vue'
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 export default {
-  components: { DataView, DataSelector, DataViewBasicInfoPanel },
+  components: { DataView, DataSelector, DataViewBasicInfoPanel, PulseLoader },
   props: {
     title: {
       type: String,
@@ -48,6 +64,16 @@ export default {
       type: String,
       required: false,
       default: ''
+    },
+    info: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    loaded: {
+      type: Boolean,
+      required: true,
+      default: false
     }
   },
   data() {
