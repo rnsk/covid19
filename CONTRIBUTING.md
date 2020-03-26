@@ -18,4 +18,5 @@
 ## 開発に関する情報
 * 開発サイト https://dev-covid19-gifu.netlify.com/
 * 本番サイト https://covid19-gifu.netlify.com/
-本 ドキュメント の更新も大歓迎です！
+
+本ドキュメント の更新も大歓迎です！
