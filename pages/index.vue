@@ -10,13 +10,14 @@
     />
     <v-row class="DataBlock">
       <v-col cols="12" md="6" class="DataCard">
-        <svg-card v-if="confirmed.loaded" title="検査陽性者の状況" :title-id="'details-of-confirmed-cases'" :date="headerItem.date">
-          <confirmed-cases-table v-bind="confirmedCases" />
+        <svg-card title="検査陽性者の状況" :title-id="'details-of-confirmed-cases'" :date="headerItem.date">
+          <pulse-loader v-if="!confirmed.loaded" :loading="!confirmed.loaded" color="#808080" />
+          <confirmed-cases-table v-else v-bind="confirmedCases" />
         </svg-card>
       </v-col>
       <v-col cols="12" md="6" class="DataCard">
         <time-bar-chart
-          v-if="patients_summary.loaded"
+          :loaded="patients_summary.loaded"
           title="陽性患者数"
           :title-id="'number-of-confirmed-cases'"
           :chart-id="'time-bar-chart-patients'"
@@ -30,7 +31,7 @@
       </v-col>
       <v-col cols="12" md="6" class="DataCard">
         <data-table
-          v-if="patients.loaded"
+          :loaded="patients.loaded"
           :title="'陽性患者の属性'"
           :title-id="'attributes-of-confirmed-cases'"
           :chart-data="patientsTable"
@@ -44,7 +45,7 @@
       </v-col>
       <v-col cols="12" md="6" class="DataCard">
         <time-bar-chart
-          v-if="inspections.loaded"
+          :loaded="inspections.loaded"
           title="検査実施数"
           :title-id="'number-of-tested'"
           :chart-id="'time-bar-chart-inspections'"
@@ -72,6 +73,7 @@ import formatGraph from '@/utils/formatGraph'
 import formatTable from '@/utils/formatTable'
 import formatConfirmedCases from '@/utils/formatConfirmedCases'
 import sheetApi from '@/api/sheet'
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 export default {
   components: {
@@ -81,7 +83,8 @@ export default {
     StaticInfo,
     DataTable,
     SvgCard,
-    ConfirmedCasesTable
+    ConfirmedCasesTable,
+    PulseLoader
   },
   created () {
     this.getNews()
