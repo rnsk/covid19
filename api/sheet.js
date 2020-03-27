@@ -1,4 +1,5 @@
 import axios from 'axios'
+import dayjs from 'dayjs'
 
 class SheetApi {
   constructor() {
@@ -31,7 +32,7 @@ class SheetApi {
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            リリース日: value.gsx$リリース日.$t,
+            リリース日: dayjs(value.gsx$リリース日.$t).format('M/DD') ?? '不明',
             曜日: value.gsx$曜日.$t,
             居住地: value.gsx$居住地.$t,
             年代: value.gsx$年代.$t,
