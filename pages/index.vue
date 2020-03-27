@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     async getNews () {
-      this.newsItems = await sheetApi.news()
+      this.newsItems = await sheetApi.getNewsData()
     },
     async getData () {
       await sheetApi.graphData().then(response => {

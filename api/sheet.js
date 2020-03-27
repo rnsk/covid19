@@ -6,7 +6,7 @@ class SheetApi {
     this.macroApiBase = 'https://script.googleusercontent.com/macros/echo';
   }
  
-  news() {
+  getNewsData() {
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/1/public/values?alt=json`)
       .then((res) => {
         const items = []
