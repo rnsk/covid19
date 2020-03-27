@@ -96,21 +96,23 @@ export default {
       this.newsItems = await sheetApi.getNewsData()
     },
     async getData () {
-      await sheetApi.graphData().then(response => {
+      await sheetApi.getPatients().then(response => {
         this.getPatientsTableData(response)
+      })
+      await sheetApi.graphData().then(response => {
         this.getPatientsData(response)
         this.getInspectionsData(response)
         this.getConfirmedData(response)
         this.headerItem.date = response.lastUpdate
       })
     },
-    getPatientsTableData (response) {
-      this.patientsTable = formatTable(response.patients.data)
-      this.patients.last_update = response.patients.date
+    getPatientsTableData (patients) {
+      this.patientsTable = formatTable(patients.data)
+      this.patients.last_update = patients.date
       this.patients.loaded = true
       this.sumInfoOfPatients = {
-        lText: response.patients.data.length,
-        sText: response.patients.data[response.patients.data.length - 1].リリース日 + 'の累計',
+        lText: patients.data.length,
+        sText: patients.data[patients.data.length - 1].リリース日 + 'の累計',
         unit: '人'
       }
     },
