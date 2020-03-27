@@ -37,7 +37,8 @@
       <ul>
         <li>{{ $t('各保健所にご相談ください') }}</li>
         <li>
-          {{ $t('「新型コロナウイルス感染症に関する健康相談について」') }}<br />
+          {{ $t('「新型コロナウイルス感染症にかかる相談窓口について」') }}
+          <br />
           <a
             href="https://www.pref.gifu.lg.jp/kodomo/kenko/kansensho/11223/2019_novel_coronavirus_kenko_sodan.html"
             target="_blank"
