@@ -108,18 +108,16 @@ export default {
       this.patientsTable = formatTable(response.patients.data)
       this.patients.last_update = response.patients.date
       this.patients.loaded = true
+      this.sumInfoOfPatients = {
+        lText: response.patients.data.length,
+        sText: response.patients.data[response.patients.data.length - 1].リリース日 + 'の累計',
+        unit: '人'
+      }
     },
     getPatientsData (response) {
       this.patientsGraph = formatGraph(response.patients_summary.data)
       this.patients_summary.last_update = response.patients_summary.date
       this.patients_summary.loaded = true
-      this.sumInfoOfPatients = {
-        lText: this.patientsGraph[
-          this.patientsGraph.length - 1
-        ].cumulative.toLocaleString(),
-        sText: this.patientsGraph[this.patientsGraph.length - 1].label + 'の累計',
-        unit: '人'
-      }
     },
     getInspectionsData (response) {
       this.inspectionsGraph = formatGraph(response.inspections_summary.data)
