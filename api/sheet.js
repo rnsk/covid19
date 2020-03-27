@@ -7,7 +7,7 @@ class SheetApi {
   }
  
   news() {
-    return axios.get(`${this.apiBase}/1O5hfDv0hmbMQtq8T4102HPkEUs24NQKp6Ps0Y4IVpHI/od6/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/1/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
