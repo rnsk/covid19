@@ -6,8 +6,8 @@ class SheetApi {
     this.macroApiBase = 'https://script.googleusercontent.com/macros/echo';
   }
  
-  news() {
-    return axios.get(`${this.apiBase}/1O5hfDv0hmbMQtq8T4102HPkEUs24NQKp6Ps0Y4IVpHI/od6/public/values?alt=json`)
+  getNewsData() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/1/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
@@ -20,6 +20,32 @@ class SheetApi {
           items.push(item)
         });
         return items;
+      })
+      .catch(e => ({ error: e }));
+  }
+
+  getPatients() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/3/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            リリース日: value.gsx$リリース日.$t,
+            曜日: value.gsx$曜日.$t,
+            居住地: value.gsx$居住地.$t,
+            年代: value.gsx$年代.$t,
+            性別: value.gsx$性別.$t,
+            備考: value.gsx$備考.$t,
+            退院: value.gsx$退院.$t,
+          }
+          items.push(item)
+        });
+        const patients = {
+          data: items,
+          date: values[values.length - 1].gsx$update.$t
+        }
+        return patients;
       })
       .catch(e => ({ error: e }));
   }
