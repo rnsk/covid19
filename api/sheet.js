@@ -44,7 +44,8 @@ class SheetApi {
         });
         const patients = {
           data: items,
-          date: values[values.length - 1].gsx$update.$t
+          last_update: values[values.length - 1].gsx$updated.$t,
+          date: dayjs(values[values.length - 1].gsx$updated.$t).format('YYYY/MM/DD')
         }
         return patients;
       })
@@ -65,7 +66,7 @@ class SheetApi {
         });
         const inspections_summary = {
           data: items,
-          // date: values[0].gsx$lastUpdate.$t
+          last_update: values[values.length - 1].gsx$updated.$t
         }
         return inspections_summary;
       })
@@ -86,7 +87,7 @@ class SheetApi {
         });
         const inspections_summary = {
           data: items,
-          // date: values[0].gsx$lastUpdate.$t
+          last_update: values[values.length - 1].gsx$updated.$t
         }
         return inspections_summary;
       })

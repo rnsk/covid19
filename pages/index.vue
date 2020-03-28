@@ -112,22 +112,22 @@ export default {
     },
     getPatientsTableData (patients) {
       this.patientsTable = formatTable(patients.data)
-      this.patients.last_update = patients.date
+      this.patients.last_update = patients.last_update
       this.patients.loaded = true
       this.sumInfoOfPatients = {
         lText: patients.data.length,
-        sText: patients.data[patients.data.length - 1].リリース日 + 'の累計',
+        sText: patients.date + 'の累計',
         unit: '人'
       }
     },
     getPatientsData (patients_summary) {
       this.patientsGraph = formatGraph(patients_summary.data)
-      this.patients_summary.last_update = patients_summary.date
+      this.patients_summary.last_update = patients_summary.last_update
       this.patients_summary.loaded = true
     },
     getInspectionsData (inspections_summary) {
       this.inspectionsGraph = formatGraph(inspections_summary.data)
-      this.inspections.last_update = inspections_summary.date
+      this.inspections.last_update = inspections_summary.last_update
       this.inspections.loaded = true
     },
     getConfirmedData (response) {
