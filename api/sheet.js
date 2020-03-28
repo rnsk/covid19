@@ -32,7 +32,7 @@ class SheetApi {
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            リリース日: dayjs(value.gsx$リリース日.$t).format('M/DD') ?? '不明',
+            リリース日: dayjs(value.gsx$リリース日.$t, 'M-DD').format('MM/DD') ?? '不明',
             曜日: value.gsx$曜日.$t,
             居住地: value.gsx$居住地.$t,
             年代: value.gsx$年代.$t,
@@ -58,7 +58,7 @@ class SheetApi {
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            日付: dayjs(value.gsx$日付.$t).format('MM/DD') ?? '不明',
+            日付: dayjs(value.gsx$日付.$t, 'M-DD').format('MM/DD') ?? '不明',
             小計: Number(value.gsx$小計.$t),
           }
           items.push(item)
@@ -79,7 +79,7 @@ class SheetApi {
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            日付: dayjs(value.gsx$日付.$t).format('MM/DD') ?? '不明',
+            日付: dayjs(value.gsx$日付.$t, 'M-DD').format('MM/DD') ?? '不明',
             小計: Number(value.gsx$実施件数.$t),
           }
           items.push(item)
