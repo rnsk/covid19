@@ -99,9 +99,11 @@ export default {
       await sheetApi.getPatients().then(response => {
         this.getPatientsTableData(response)
       })
+      await sheetApi.getInspectionsSummary().then(response => {
+        this.getInspectionsData(response)
+      })
       await sheetApi.graphData().then(response => {
         this.getPatientsData(response)
-        this.getInspectionsData(response)
         this.getConfirmedData(response)
         this.headerItem.date = response.lastUpdate
       })
@@ -121,9 +123,9 @@ export default {
       this.patients_summary.last_update = response.patients_summary.date
       this.patients_summary.loaded = true
     },
-    getInspectionsData (response) {
-      this.inspectionsGraph = formatGraph(response.inspections_summary.data)
-      this.inspections.last_update = response.inspections_summary.date
+    getInspectionsData (inspections_summary) {
+      this.inspectionsGraph = formatGraph(inspections_summary.data)
+      this.inspections.last_update = inspections_summary.date
       this.inspections.loaded = true
     },
     getConfirmedData (response) {
