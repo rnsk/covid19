@@ -25,6 +25,52 @@ class SheetApi {
       .catch(e => ({ error: e }));
   }
 
+  graphMainSummary() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/2/public/values?alt=json`)
+      .then((res) => {
+        const data = res.data.feed.entry[0]
+        const main_summary = {
+          data: {
+            attr: '検査実施件数',
+            value: Number(data.gsx$検査実施件数.$t),
+            children: [
+              {
+                attr: '陽性患者数',
+                value: Number(data.gsx$陽性患者数.$t),
+                children: [
+                  {
+                    attr: '入院中',
+                    value: Number(data.gsx$入院中.$t),
+                    children: [
+                      {
+                        attr: '軽症・中等症',
+                        value: Number(data.gsx$軽症中等症.$t),
+                      },
+                      {
+                        attr: '重症',
+                        value: Number(data.gsx$重症.$t),
+                      }
+                    ]
+                  },
+                  {
+                    attr: '退院',
+                    value: Number(data.gsx$退院.$t),
+                  },
+                  {
+                    attr: '死亡',
+                    value: Number(data.gsx$死亡.$t),
+                  }
+                ]
+              }
+            ]
+          },
+          last_update: data.gsx$lastupdate.$t,
+        }
+        return main_summary;
+      })
+      .catch(e => ({ error: e }));
+  }
+
   getPatients() {
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/3/public/values?alt=json`)
       .then((res) => {
