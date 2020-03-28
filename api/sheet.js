@@ -32,7 +32,7 @@ class SheetApi {
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            リリース日: dayjs(value.gsx$リリース日.$t).format('M/DD') ?? '不明',
+            リリース日: dayjs(value.gsx$リリース日.$t, 'YYYY/MM/DD').format() ?? '不明',
             曜日: value.gsx$曜日.$t,
             居住地: value.gsx$居住地.$t,
             年代: value.gsx$年代.$t,
@@ -44,9 +44,52 @@ class SheetApi {
         });
         const patients = {
           data: items,
-          date: values[values.length - 1].gsx$update.$t
+          last_update: values[values.length - 1].gsx$updated.$t,
+          date: dayjs(values[values.length - 1].gsx$updated.$t).format('YYYY/MM/DD')
         }
         return patients;
+      })
+      .catch(e => ({ error: e }));
+  }
+
+  getPatientsSummary() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/4/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            日付: dayjs(value.gsx$日付.$t, 'YYYY/MM/DD').format() ?? '不明',
+            小計: Number(value.gsx$小計.$t),
+          }
+          items.push(item)
+        });
+        const inspections_summary = {
+          data: items,
+          last_update: values[values.length - 1].gsx$updated.$t
+        }
+        return inspections_summary;
+      })
+      .catch(e => ({ error: e }));
+  }
+
+  getInspectionsSummary() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/5/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            日付: dayjs(value.gsx$日付.$t, 'YYYY/MM/DD').format() ?? '不明',
+            小計: Number(value.gsx$実施件数.$t),
+          }
+          items.push(item)
+        });
+        const inspections_summary = {
+          data: items,
+          last_update: values[values.length - 1].gsx$updated.$t
+        }
+        return inspections_summary;
       })
       .catch(e => ({ error: e }));
   }
