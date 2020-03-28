@@ -51,6 +51,27 @@ class SheetApi {
       .catch(e => ({ error: e }));
   }
 
+  getPatientsSummary() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/4/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            日付: dayjs(value.gsx$日付.$t).format('MM/DD') ?? '不明',
+            小計: Number(value.gsx$小計.$t),
+          }
+          items.push(item)
+        });
+        const inspections_summary = {
+          data: items,
+          // date: values[0].gsx$lastUpdate.$t
+        }
+        return inspections_summary;
+      })
+      .catch(e => ({ error: e }));
+  }
+
   getInspectionsSummary() {
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/5/public/values?alt=json`)
       .then((res) => {

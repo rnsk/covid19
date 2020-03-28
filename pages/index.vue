@@ -99,11 +99,13 @@ export default {
       await sheetApi.getPatients().then(response => {
         this.getPatientsTableData(response)
       })
+      await sheetApi.getPatientsSummary().then(response => {
+        this.getPatientsData(response)
+      })
       await sheetApi.getInspectionsSummary().then(response => {
         this.getInspectionsData(response)
       })
       await sheetApi.graphData().then(response => {
-        this.getPatientsData(response)
         this.getConfirmedData(response)
         this.headerItem.date = response.lastUpdate
       })
@@ -118,9 +120,9 @@ export default {
         unit: '人'
       }
     },
-    getPatientsData (response) {
-      this.patientsGraph = formatGraph(response.patients_summary.data)
-      this.patients_summary.last_update = response.patients_summary.date
+    getPatientsData (patients_summary) {
+      this.patientsGraph = formatGraph(patients_summary.data)
+      this.patients_summary.last_update = patients_summary.date
       this.patients_summary.loaded = true
     },
     getInspectionsData (inspections_summary) {
