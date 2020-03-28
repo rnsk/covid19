@@ -93,37 +93,41 @@ export default {
   },
   methods: {
     async getNews () {
-      this.newsItems = await sheetApi.news()
+      this.newsItems = await sheetApi.getNewsData()
     },
     async getData () {
-      await sheetApi.graphData().then(response => {
+      await sheetApi.getPatients().then(response => {
         this.getPatientsTableData(response)
+      })
+      await sheetApi.getPatientsSummary().then(response => {
         this.getPatientsData(response)
+      })
+      await sheetApi.getInspectionsSummary().then(response => {
         this.getInspectionsData(response)
+      })
+      await sheetApi.graphData().then(response => {
         this.getConfirmedData(response)
         this.headerItem.date = response.lastUpdate
       })
     },
-    getPatientsTableData (response) {
-      this.patientsTable = formatTable(response.patients.data)
-      this.patients.last_update = response.patients.date
+    getPatientsTableData (patients) {
+      this.patientsTable = formatTable(patients.data)
+      this.patients.last_update = patients.last_update
       this.patients.loaded = true
-    },
-    getPatientsData (response) {
-      this.patientsGraph = formatGraph(response.patients_summary.data)
-      this.patients_summary.last_update = response.patients_summary.date
-      this.patients_summary.loaded = true
       this.sumInfoOfPatients = {
-        lText: this.patientsGraph[
-          this.patientsGraph.length - 1
-        ].cumulative.toLocaleString(),
-        sText: this.patientsGraph[this.patientsGraph.length - 1].label + 'の累計',
+        lText: patients.data.length,
+        sText: patients.date + 'の累計',
         unit: '人'
       }
     },
-    getInspectionsData (response) {
-      this.inspectionsGraph = formatGraph(response.inspections_summary.data)
-      this.inspections.last_update = response.inspections_summary.date
+    getPatientsData (patients_summary) {
+      this.patientsGraph = formatGraph(patients_summary.data)
+      this.patients_summary.last_update = patients_summary.last_update
+      this.patients_summary.loaded = true
+    },
+    getInspectionsData (inspections_summary) {
+      this.inspectionsGraph = formatGraph(inspections_summary.data)
+      this.inspections.last_update = inspections_summary.last_update
       this.inspections.loaded = true
     },
     getConfirmedData (response) {
