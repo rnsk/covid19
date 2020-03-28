@@ -10,7 +10,7 @@
     />
     <v-row class="DataBlock">
       <v-col cols="12" md="6" class="DataCard">
-        <svg-card title="検査陽性者の状況" :title-id="'details-of-confirmed-cases'" :date="headerItem.date">
+        <svg-card title="検査陽性者の状況" :title-id="'details-of-confirmed-cases'" :date="confirmed.last_update">
           <pulse-loader v-if="!confirmed.loaded" :loading="!confirmed.loaded" color="#808080" />
           <confirmed-cases-table v-else v-bind="confirmedCases" />
         </svg-card>
@@ -96,18 +96,18 @@ export default {
       this.newsItems = await sheetApi.getNewsData()
     },
     async getData () {
-      await sheetApi.getPatients().then(response => {
-        this.getPatientsTableData(response)
+      await sheetApi.graphMainSummary().then(response => {
+        this.getConfirmedData(response)
+        this.headerItem.date = response.last_update
       })
       await sheetApi.getPatientsSummary().then(response => {
         this.getPatientsData(response)
       })
+      await sheetApi.getPatients().then(response => {
+        this.getPatientsTableData(response)
+      })
       await sheetApi.getInspectionsSummary().then(response => {
         this.getInspectionsData(response)
-      })
-      await sheetApi.graphData().then(response => {
-        this.getConfirmedData(response)
-        this.headerItem.date = response.lastUpdate
       })
     },
     getPatientsTableData (patients) {
@@ -130,8 +130,9 @@ export default {
       this.inspections.last_update = inspections_summary.last_update
       this.inspections.loaded = true
     },
-    getConfirmedData (response) {
-      this.confirmedCases = formatConfirmedCases(response.main_summary)
+    getConfirmedData (main_summary) {
+      this.confirmedCases = formatConfirmedCases(main_summary.data)
+      this.confirmed.last_update = main_summary.last_update
       this.confirmed.loaded = true
     },
   },
@@ -150,7 +151,8 @@ export default {
         last_update: "",
       },
       confirmed: {
-        loaded: false
+        loaded: false,
+        last_update: "",
       },
       /**
        * 全体の最終更新日
