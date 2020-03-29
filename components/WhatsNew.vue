@@ -9,7 +9,7 @@
         <time class="WhatsNew-item-time px-2">{{ item.date }}</time>
         <span class="WhatsNew-item-link">
             {{ item.text }}
-            <v-icon size="12" class="MenuList-ExternalIcon">mdi-open-in-new</v-icon>
+            <v-icon size="12" class="WhatsNew-ExternalIcon">mdi-open-in-new</v-icon>
         </span>
       </a>
     </div>
@@ -28,10 +28,9 @@ export default {
 </script>
 
 <style lang="scss">
-.WhatsNew{
+.WhatsNew {
   @include card-container();
   padding: 10px;
-  margin-bottom: 20px;
 }
 
 .WhatsNew-heading {

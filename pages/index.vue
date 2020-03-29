@@ -1,12 +1,10 @@
 <template>
   <div class="MainPage">
     <page-header :icon="headerItem.icon" :title="headerItem.title" :date="headerItem.date" />
-    <whats-new class="mb-4" :items="newsItems" />
-    <static-info
-      class="mb-4"
+    <whats-new :items="newsItems" />
+    <static-button
       :url="'/flow'"
-      :text="'自分や家族の症状に不安や心配があればまずは電話相談をどうぞ'"
-      :btn-text="'相談の手順を見る'"
+      :text="'相談の手順を確認する'"
     />
     <v-row class="DataBlock">
       <v-col cols="12" md="6" class="DataCard">
@@ -66,7 +64,7 @@
 import PageHeader from '@/components/PageHeader.vue'
 import TimeBarChart from '@/components/TimeBarChart.vue'
 import WhatsNew from '@/components/WhatsNew.vue'
-import StaticInfo from '@/components/StaticInfo.vue'
+import StaticButton from '@/components/StaticButton.vue'
 import DataTable from '@/components/DataTable.vue'
 import SvgCard from '@/components/SvgCard.vue'
 import ConfirmedCasesTable from '@/components/ConfirmedCasesTable.vue'
@@ -81,7 +79,7 @@ export default {
     PageHeader,
     TimeBarChart,
     WhatsNew,
-    StaticInfo,
+    StaticButton,
     DataTable,
     SvgCard,
     ConfirmedCasesTable,
