@@ -10,16 +10,17 @@ class SheetApi {
   getNewsData() {
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/1/public/values?alt=json`)
       .then((res) => {
+        let num = 2
         const items = []
         const values = Object.values(res.data.feed.entry)
-        values.forEach((value) => {
+        for (let i = 0; i < num; i++) {
           const item = {
-            text: value.gsx$title.$t,
-            url: value.gsx$url.$t,
-            date: value.gsx$date.$t,
+            text: values[i].gsx$title.$t,
+            url: values[i].gsx$url.$t,
+            date: values[i].gsx$date.$t,
           };
           items.push(item)
-        });
+        }
         return items;
       })
       .catch(e => ({ error: e }));
