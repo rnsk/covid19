@@ -216,6 +216,8 @@ $default-boxdiff: 35px;
     width: 15.3%;
     flex: 0 0 auto;
     text-align: center;
+    display:block;
+    padding-top: $default-boxh -$default-boxdiff - $default-bdw - 2;
 
     &::after {
       content: '';
