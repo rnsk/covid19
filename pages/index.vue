@@ -27,7 +27,7 @@
           "
         />
       </v-col>
-      <v-col cols="12" md="6" class="DataCard">
+      <v-col cols="12" md="12" class="DataCard">
         <data-table
           :loaded="patients.loaded"
           :title="'陽性患者の属性'"
