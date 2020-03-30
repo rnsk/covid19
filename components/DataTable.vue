@@ -8,10 +8,6 @@
       v-else
       :headers="chartData.headers"
       :items="chartData.datasets"
-      :items-per-page="-1"
-      :hide-default-footer="true"
-      :height="240"
-      :fixed-header="true"
       :mobile-breakpoint="0"
       class="cardTable"
     />
@@ -57,6 +53,9 @@
       }
     }
   }
+}
+.v-data-footer__select {
+  display: none;
 }
 </style>
 
