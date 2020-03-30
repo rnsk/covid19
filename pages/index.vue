@@ -27,7 +27,7 @@
           "
         />
       </v-col>
-      <v-col cols="12" md="6" class="DataCard">
+      <v-col cols="12" md="12" class="DataCard">
         <data-table
           :loaded="patients.loaded"
           :title="'陽性患者の属性'"
@@ -38,21 +38,6 @@
           :info="sumInfoOfPatients"
           :url="
             'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html'
-          "
-        />
-      </v-col>
-      <v-col cols="12" md="6" class="DataCard">
-        <time-bar-chart
-          :loaded="inspections.loaded"
-          title="検査実施数"
-          :title-id="'number-of-tested'"
-          :chart-id="'time-bar-chart-inspections'"
-          :chart-data="inspectionsGraph"
-          :date="inspections.last_update"
-          :unit="'件'"
-          :info="'注：3/24登録のデータは3/12-3/24までの累計です'"
-          :url="
-            'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.data/200312-2.pdf'
           "
         />
       </v-col>
@@ -104,9 +89,6 @@ export default {
       await sheetApi.getPatients().then(response => {
         this.getPatientsTableData(response)
       })
-      await sheetApi.getInspectionsSummary().then(response => {
-        this.getInspectionsData(response)
-      })
     },
     getPatientsTableData (patients) {
       this.patientsTable = formatTable(patients.data)
@@ -122,11 +104,6 @@ export default {
       this.patientsGraph = formatGraph(patients_summary.data)
       this.patients_summary.last_update = patients_summary.last_update
       this.patients_summary.loaded = true
-    },
-    getInspectionsData (inspections_summary) {
-      this.inspectionsGraph = formatGraph(inspections_summary.data)
-      this.inspections.last_update = inspections_summary.last_update
-      this.inspections.loaded = true
     },
     getConfirmedData (main_summary) {
       this.confirmedCases = formatConfirmedCases(main_summary.data)
@@ -144,10 +121,6 @@ export default {
         loaded: false,
         last_update: "",
       },
-      inspections: {
-        loaded: false,
-        last_update: "",
-      },
       confirmed: {
         loaded: false,
         last_update: "",
@@ -161,7 +134,6 @@ export default {
        */
       patientsTable: {},
       patientsGraph: [],
-      inspectionsGraph: [],
       confirmedCases: {},
       sumInfoOfPatients: {},
       headerItem: {
