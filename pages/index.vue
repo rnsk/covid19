@@ -22,9 +22,6 @@
           :chart-data="patientsGraph"
           :date="patients_summary.last_update"
           :unit="'人'"
-          :url="
-            'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html'
-          "
         />
       </v-col>
       <v-col cols="12" md="12" class="DataCard">
@@ -36,9 +33,6 @@
           :chart-option="{}"
           :date="patients.last_update"
           :info="sumInfoOfPatients"
-          :url="
-            'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html'
-          "
         />
       </v-col>
     </v-row>
