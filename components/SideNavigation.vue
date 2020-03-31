@@ -123,12 +123,6 @@ export default {
           link: this.localePath('/parent')
         },
         {
-          icon: 'mdi-account-multiple',
-          title: this.$t('for Citizens'),
-          link:
-            'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html'
-        },
-        {
           icon: 'mdi-domain',
           title: this.$t('for Business person'),
           link: this.localePath('/worker')
@@ -140,21 +134,27 @@ export default {
           divider: true
         },
         {
+          title: this.$t('About COVID-19 countermeasure information'),
+          link:
+            'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html'
+        },
+        {
           title: this.$t('Cancelled public events'),
           link: 'https://www.pref.gifu.lg.jp/shingata_corona_enki.html'
+        },
+        {
+          title: this.$t('Government official website'),
+          link: 'https://www.pref.gifu.lg.jp/',
+          divider: true
+        },
+        {
+          title: this.$t('Other local Government'),
+          link: 'https://github.com/tokyo-metropolitan-gov/covid19/blob/development/FORKED_SITES.md'
         },
         {
           title: this.$t('About us'),
           link: this.localePath('/about')
         },
-        {
-          title: this.$t('Government official website'),
-          link: 'https://www.pref.gifu.lg.jp/'
-        },
-        {
-          title: this.$t('Other local Government'),
-          link: 'https://github.com/tokyo-metropolitan-gov/covid19/blob/development/FORKED_SITES.md'
-        }
       ]
     }
   },
