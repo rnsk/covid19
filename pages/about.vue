@@ -85,12 +85,8 @@
       当サイトに掲載されている情報は、予告なしに変更又は削除することがあります。
     </TextCard>
     <TextCard title="データについて">
-      本サイトで使用しているデータは、<a
-        href="https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html"
-        target="_blank"
-        rel="noopener"
-        >岐阜県公式ホームページ</a
-      >で公開されているものです。
+      本サイトで公開しているデータは県内の行政が公開したデータをもとに作成しています。<br/>
+      各行政のサイトについては <nuxt-link :to="localePath('/municipalities')">岐阜県自治体コロナ対策情報一覧</nuxt-link>をご覧ください。
     </TextCard>
     <TextCard title="ソースコードについて">
       本サイトのソースコードはMITライセンスで公開されており、誰でも自由に利用することができます。詳しくは、<a
