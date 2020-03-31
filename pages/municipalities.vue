@@ -31,7 +31,7 @@
     </v-card>
   </div>
 </template>
-<script lang="ts">
+<script>
 import PageHeader from '@/components/PageHeader.vue'
 import sheetApi from '@/api/sheet'
 
