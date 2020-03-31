@@ -115,6 +115,11 @@ export default {
           icon: 'CovidIcon',
           title: this.$t('If you have any symptoms'),
           link: this.localePath('/flow'),
+        },
+        {
+          icon: 'mdi-city',
+          title: this.$t('岐阜県自治体コロナ対策情報一覧'),
+          link: this.localePath('/municipalities'),
           divider: true
         },
         {
