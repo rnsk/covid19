@@ -14,11 +14,11 @@
       <v-data-table
         :headers="chartData.headers"
         :items="chartData.datasets"
-        :mobile-breakpoint="0"
         :search="search"
         :no-data-text="$t('No data available')"
         :no-results-text="$t('No matching records found')"
         disable-pagination
+        disable-sort
         hide-default-footer
       >
         <template v-slot:item.対策ページ名称="{ item }">
@@ -57,10 +57,10 @@ export default {
       search: '',
       chartData: {
         headers: [
-          { text: this.$t('自治体名'), value: '自治体名', sortable: false },
+          { text: this.$t('自治体名'), value: '自治体名' },
           { text: this.$t('ふりがな'), value: 'ふりがな' },
-          { text: this.$t('庁舎所在地'), value: '庁舎所在地', sortable: false },
-          { text: this.$t('対策ページ'), value: '対策ページ名称', sortable: false, filterable: false },
+          { text: this.$t('庁舎所在地'), value: '庁舎所在地' },
+          { text: this.$t('対策ページ'), value: '対策ページ名称', filterable: false },
         ],
         datasets: []
       },
@@ -82,5 +82,9 @@ export default {
     color: $gray-2;
     margin-bottom: 12px;
   }
+}
+th,
+.v-data-table__mobile-row__header {
+  white-space: nowrap;
 }
 </style>
