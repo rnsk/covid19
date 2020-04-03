@@ -1,4 +1,5 @@
 import axios from 'axios'
+import dayjs from 'dayjs'
 
 class SheetApi {
   constructor() {
@@ -6,20 +7,160 @@ class SheetApi {
     this.macroApiBase = 'https://script.googleusercontent.com/macros/echo';
   }
  
-  news() {
-    return axios.get(`${this.apiBase}/1O5hfDv0hmbMQtq8T4102HPkEUs24NQKp6Ps0Y4IVpHI/od6/public/values?alt=json`)
+  getNewsData() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/1/public/values?alt=json`)
+      .then((res) => {
+        let num = 2
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        for (let i = 0; i < num; i++) {
+          const item = {
+            text: values[i].gsx$title.$t,
+            url: values[i].gsx$url.$t,
+            date: values[i].gsx$date.$t,
+          };
+          items.push(item)
+        }
+        return items;
+      })
+      .catch(e => ({ error: e }));
+  }
+
+  graphMainSummary() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/2/public/values?alt=json`)
+      .then((res) => {
+        const data = res.data.feed.entry[0]
+        const main_summary = {
+          data: {
+            attr: '検査実施件数',
+            value: Number(data.gsx$検査実施件数.$t),
+            children: [
+              {
+                attr: '陽性患者数',
+                value: Number(data.gsx$陽性患者数.$t),
+                children: [
+                  {
+                    attr: '入院中',
+                    value: Number(data.gsx$入院中.$t),
+                    children: [
+                      {
+                        attr: '軽症・中等症',
+                        value: Number(data.gsx$軽症中等症.$t),
+                      },
+                      {
+                        attr: '重症',
+                        value: Number(data.gsx$重症.$t),
+                      }
+                    ]
+                  },
+                  {
+                    attr: '退院',
+                    value: Number(data.gsx$退院.$t),
+                  },
+                  {
+                    attr: '死亡',
+                    value: Number(data.gsx$死亡.$t),
+                  }
+                ]
+              }
+            ]
+          },
+          last_update: data.gsx$lastupdate.$t,
+        }
+        return main_summary;
+      })
+      .catch(e => ({ error: e }));
+  }
+
+  getPatients() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/3/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            text: value.gsx$title.$t,
-            url: value.gsx$url.$t,
-            date: value.gsx$date.$t,
-          };
+            リリース日: dayjs(value.gsx$リリース日.$t, 'YYYY/MM/DD').format() ?? '不明',
+            曜日: value.gsx$曜日.$t,
+            居住地: value.gsx$居住地.$t,
+            年代: value.gsx$年代.$t,
+            性別: value.gsx$性別.$t,
+            備考: value.gsx$備考.$t,
+            退院: value.gsx$退院.$t,
+          }
           items.push(item)
         });
-        return items;
+        const patients = {
+          data: items,
+          last_update: values[values.length - 1].gsx$updated.$t,
+          date: dayjs(values[values.length - 1].gsx$updated.$t).format('YYYY/MM/DD')
+        }
+        return patients;
+      })
+      .catch(e => ({ error: e }));
+  }
+
+  getPatientsSummary() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/4/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            日付: dayjs(value.gsx$日付.$t, 'YYYY/MM/DD').format() ?? '不明',
+            小計: Number(value.gsx$小計.$t),
+          }
+          items.push(item)
+        });
+        const inspections_summary = {
+          data: items,
+          last_update: values[values.length - 1].gsx$updated.$t
+        }
+        return inspections_summary;
+      })
+      .catch(e => ({ error: e }));
+  }
+
+  getInspectionsSummary() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/5/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            日付: dayjs(value.gsx$日付.$t, 'YYYY/MM/DD').format() ?? '不明',
+            小計: Number(value.gsx$実施件数.$t),
+          }
+          items.push(item)
+        });
+        const inspections_summary = {
+          data: items,
+          last_update: values[values.length - 1].gsx$updated.$t
+        }
+        return inspections_summary;
+      })
+      .catch(e => ({ error: e }));
+  }
+
+  getMunicipalityLink() {
+    return axios.get(`${this.apiBase}/1Dm9dsei-QXmilRN9V7IVmgnZuC8aRsFQE5RPR0-L7bI/1/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            自治体名: value.gsx$自治体名.$t,
+            庁舎所在地: value.gsx$庁舎所在地.$t,
+            ふりがな: value.gsx$ふりがな.$t,
+            対策ページ名称: value.gsx$対策ページ名称.$t,
+            リンク: value.gsx$リンク.$t,
+            電話番号: value.gsx$電話番号.$t
+          }
+          items.push(item)
+        });
+        const links = {
+          data: items
+        }
+        return links;
       })
       .catch(e => ({ error: e }));
   }

@@ -6,7 +6,7 @@
       </v-icon>
       {{ title }}
     </h2>
-    <div class="date">
+    <div v-if="date" class="date">
       <span>最終更新 </span><time>{{ date }}</time>
     </div>
   </div>

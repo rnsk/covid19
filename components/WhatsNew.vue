@@ -1,13 +1,16 @@
 <template>
   <div class="WhatsNew">
     <h2 class="WhatsNew-heading">
-      <v-icon size="24" class="WhatsNew-heading-icon">mdi-information</v-icon>
-      最新のお知らせ
+      <v-icon class="WhatsNew-heading-icon">mdi-information</v-icon>
+      最新のお知らせ（岐阜県公式HPより）
     </h2>
     <div v-for="(item, i) in items" :key="i">
       <a class="WhatsNew-item" :href="item.url" target="_blank" rel="noopener">
         <time class="WhatsNew-item-time px-2">{{ item.date }}</time>
-        <span class="WhatsNew-item-link">{{ item.text }}</span>
+        <span class="WhatsNew-item-link">
+            {{ item.text }}
+            <v-icon size="12" class="WhatsNew-ExternalIcon">mdi-open-in-new</v-icon>
+        </span>
       </a>
     </div>
   </div>
@@ -25,29 +28,28 @@ export default {
 </script>
 
 <style lang="scss">
-.WhatsNew{
+.WhatsNew {
   @include card-container();
   padding: 10px;
-  margin-bottom: 20px;
 }
 
 .WhatsNew-heading {
   display: flex;
   align-items: center;
-  @include card-h2();
-  margin-bottom: 12px;
+  margin-bottom: .5em;
+  font-size: 14px;
+  line-height: 1.2em;
   color: $gray-2;
-  margin-left: 12px;
 
   &-icon {
-    margin: 3px;
+    margin: 2px;
   }
 }
 
 .WhatsNew-item {
   display: flex;
   text-decoration: none;
-  margin: 5px;
+  margin: 5px 2px;
   font-size: 14px;
 
   @include lessThan($medium) {

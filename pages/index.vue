@@ -1,16 +1,14 @@
 <template>
   <div class="MainPage">
     <page-header :icon="headerItem.icon" :title="headerItem.title" :date="headerItem.date" />
-    <whats-new class="mb-4" :items="newsItems" />
-    <static-info
-      class="mb-4"
+    <whats-new :items="newsItems" />
+    <static-button
       :url="'/flow'"
-      :text="'自分や家族の症状に不安や心配があればまずは電話相談をどうぞ'"
-      :btn-text="'相談の手順を見る'"
+      :text="'相談の手順を確認する'"
     />
     <v-row class="DataBlock">
       <v-col cols="12" md="6" class="DataCard">
-        <svg-card title="検査陽性者の状況" :title-id="'details-of-confirmed-cases'" :date="headerItem.date">
+        <svg-card title="検査陽性者の状況" :title-id="'details-of-confirmed-cases'" :date="confirmed.last_update">
           <pulse-loader v-if="!confirmed.loaded" :loading="!confirmed.loaded" color="#808080" />
           <confirmed-cases-table v-else v-bind="confirmedCases" />
         </svg-card>
@@ -24,12 +22,9 @@
           :chart-data="patientsGraph"
           :date="patients_summary.last_update"
           :unit="'人'"
-          :url="
-            'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html'
-          "
         />
       </v-col>
-      <v-col cols="12" md="6" class="DataCard">
+      <v-col cols="12" md="12" class="DataCard">
         <data-table
           :loaded="patients.loaded"
           :title="'陽性患者の属性'"
@@ -38,24 +33,6 @@
           :chart-option="{}"
           :date="patients.last_update"
           :info="sumInfoOfPatients"
-          :url="
-            'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html'
-          "
-        />
-      </v-col>
-      <v-col cols="12" md="6" class="DataCard">
-        <time-bar-chart
-          :loaded="inspections.loaded"
-          title="検査実施数"
-          :title-id="'number-of-tested'"
-          :chart-id="'time-bar-chart-inspections'"
-          :chart-data="inspectionsGraph"
-          :date="inspections.last_update"
-          :unit="'件'"
-          :info="'注：3/24登録のデータは3/12-3/24までの累計です'"
-          :url="
-            'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.data/200312-2.pdf'
-          "
         />
       </v-col>
     </v-row>
@@ -66,7 +43,7 @@
 import PageHeader from '@/components/PageHeader.vue'
 import TimeBarChart from '@/components/TimeBarChart.vue'
 import WhatsNew from '@/components/WhatsNew.vue'
-import StaticInfo from '@/components/StaticInfo.vue'
+import StaticButton from '@/components/StaticButton.vue'
 import DataTable from '@/components/DataTable.vue'
 import SvgCard from '@/components/SvgCard.vue'
 import ConfirmedCasesTable from '@/components/ConfirmedCasesTable.vue'
@@ -81,7 +58,7 @@ export default {
     PageHeader,
     TimeBarChart,
     WhatsNew,
-    StaticInfo,
+    StaticButton,
     DataTable,
     SvgCard,
     ConfirmedCasesTable,
@@ -93,41 +70,38 @@ export default {
   },
   methods: {
     async getNews () {
-      this.newsItems = await sheetApi.news()
+      this.newsItems = await sheetApi.getNewsData()
     },
     async getData () {
-      await sheetApi.graphData().then(response => {
-        this.getPatientsTableData(response)
-        this.getPatientsData(response)
-        this.getInspectionsData(response)
+      await sheetApi.graphMainSummary().then(response => {
         this.getConfirmedData(response)
-        this.headerItem.date = response.lastUpdate
+        this.headerItem.date = response.last_update
+      })
+      await sheetApi.getPatientsSummary().then(response => {
+        this.getPatientsData(response)
+      })
+      await sheetApi.getPatients().then(response => {
+        this.getPatientsTableData(response)
       })
     },
-    getPatientsTableData (response) {
-      this.patientsTable = formatTable(response.patients.data)
-      this.patients.last_update = response.patients.date
+    getPatientsTableData (patients) {
+      this.patientsTable = formatTable(patients.data)
+      this.patients.last_update = patients.last_update
       this.patients.loaded = true
-    },
-    getPatientsData (response) {
-      this.patientsGraph = formatGraph(response.patients_summary.data)
-      this.patients_summary.last_update = response.patients_summary.date
-      this.patients_summary.loaded = true
       this.sumInfoOfPatients = {
-        lText: this.patientsGraph[
-          this.patientsGraph.length - 1
-        ].cumulative.toLocaleString(),
-        sText: this.patientsGraph[this.patientsGraph.length - 1].label + 'の累計',
+        lText: patients.data.length,
+        sText: patients.date + 'の累計',
         unit: '人'
       }
     },
-    getInspectionsData (response) {
-      this.inspectionsGraph = formatGraph(response.inspections_summary.data)
-      this.inspections.last_update = response.inspections_summary.date
-      this.inspections.loaded = true
+    getPatientsData (patients_summary) {
+      this.patientsGraph = formatGraph(patients_summary.data)
+      this.patients_summary.last_update = patients_summary.last_update
+      this.patients_summary.loaded = true
     },
-    getConfirmedData (response) {
-      this.confirmedCases = formatConfirmedCases(response.main_summary)
+    getConfirmedData (main_summary) {
+      this.confirmedCases = formatConfirmedCases(main_summary.data)
+      this.confirmed.last_update = main_summary.last_update
       this.confirmed.loaded = true
     },
   },
@@ -141,12 +115,9 @@ export default {
         loaded: false,
         last_update: "",
       },
-      inspections: {
+      confirmed: {
         loaded: false,
         last_update: "",
-      },
-      confirmed: {
-        loaded: false
       },
       /**
        * 全体の最終更新日
@@ -157,7 +128,6 @@ export default {
        */
       patientsTable: {},
       patientsGraph: [],
-      inspectionsGraph: [],
       confirmedCases: {},
       sumInfoOfPatients: {},
       headerItem: {

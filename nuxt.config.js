@@ -20,7 +20,7 @@ const config = {
             {
                 hid: 'description',
                 name: 'description',
-                content: '当サイトは新型コロナウイルス感染症（COVID-19）に関する最新情報を提供するために、個人が開設したものです。'
+                content: '当サイトは新型コロナウイルス感染症（COVID-19）に関する最新情報を提供するために、有志が開設したものです。'
             },
             {
                 hid: 'og:site_name',
@@ -41,7 +41,7 @@ const config = {
             {
                 hid: 'og:description',
                 property: 'og:description',
-                content: '当サイトは新型コロナウイルス感染症（COVID-19）に関する最新情報を提供するために、個人が開設したものです。'
+                content: '当サイトは新型コロナウイルス感染症（COVID-19）に関する最新情報を提供するために、有志が開設したものです。'
             },
             {
                 hid: 'og:image',
@@ -149,7 +149,7 @@ const config = {
     generate: {
         fallback: true,
         routes() {
-            const locales = ['ja', 'en', 'zh-cn', 'zh-tw', 'ko', 'ja-basic']
+            const locales = ['ja', 'en', 'ja-basic']
             const pages = [
                 '/cards/details-of-confirmed-cases',
                 '/cards/number-of-confirmed-cases',
