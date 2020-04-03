@@ -18,6 +18,17 @@
         {{ $t('通常の風邪やインフルエンザの予防方法と同じく、手洗い（よく泡立てて30秒）や手指消毒剤（70％エタノール）での消毒をこまめに行うことが重要です。') }}
         {{ $t('特に、症状がある場合には、周囲の人に感染を広げないために、マスクを着用するなどの咳エチケットが重要です。') }}
       </p>
+      <v-row class="DataBlock">
+        <v-col cols="12" md="4">
+          <video-player :title="$t('手洗い編')" :videoId="'zYOvdzxB2Uk'" />
+        </v-col>
+        <v-col cols="12" md="4">
+          <video-player :title="$t('咳エチケット編')" :videoId="'Agk5OibzAgI'" />
+        </v-col>
+        <v-col cols="12" md="4">
+          <video-player　:title="$t('人にうつさない編')" :videoId="'FlfmBNg92AA'" />
+        </v-col>
+      </v-row>
     </StaticCard>
     <StaticCard>
       <h3>3. {{ $t('感染症を疑う場合の対応') }}</h3>
@@ -47,12 +58,14 @@ import Vue from 'vue'
 import PageHeader from '@/components/PageHeader.vue'
 import StaticCard from '@/components/StaticCard.vue'
 import StaticButton from '@/components/StaticButton.vue'
+import VideoPlayer from '@/components/VideoPlayer.vue'
 
 export default Vue.extend({
   components: {
     PageHeader,
     StaticCard,
-    StaticButton
+    StaticButton,
+    VideoPlayer
   },
 })
 </script>
