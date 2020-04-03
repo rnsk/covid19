@@ -120,12 +120,12 @@ export default {
           icon: 'mdi-city',
           title: this.$t('岐阜県自治体コロナ対策情報一覧'),
           link: this.localePath('/municipalities'),
-          divider: true
         },
         {
-          icon: 'ParentIcon',
-          title: this.$t('for Families with children'),
-          link: this.localePath('/parent')
+          icon: 'mdi-hand-water',
+          title: this.$t('新型コロナウイルス感染症の予防について'),
+          link: this.localePath('/precaution'),
+          divider: true
         },
         {
           icon: 'mdi-domain',
