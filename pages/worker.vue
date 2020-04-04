@@ -1,6 +1,6 @@
 <template>
   <div class="Parent">
-    <page-header :icon="'mdi-hand-water'" :title="$t('事業者の皆様へ')" />
+    <page-header :icon="'mdi-domain'" :title="$t('事業者の皆様へ')" />
     <StaticCard>
       <h3>{{ $t('新型コロナウイルス感染症に関する相談窓口') }}</h3>
       <h4>
