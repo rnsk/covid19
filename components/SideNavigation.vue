@@ -5,17 +5,18 @@
         class="SideNavigation-OpenIcon"
         :aria-label="$t('サイドメニュー項目を開く')"
         @click="$emit('openNavi', $event)"
-      >
-        mdi-menu
-      </v-icon>
+      >mdi-menu</v-icon>
       <h1 class="SideNavigation-Heading">
         <nuxt-link :to="localePath('/')" class="SideNavigation-HeadingLink">
           <div class="SideNavigation-HeaderLogo">
             <img src="/logo.svg" :alt="$t('Gifu Prefectural Government')" />
           </div>
           <div class="SideNavigation-HeaderLogoLinkText">
-            {{ $t('Gifu Prefectural Government') }}<br />
-            {{ $t('COVID-19') }}<br />{{ $t('Measures site') }}
+            {{ $t('Gifu Prefectural Government') }}
+            <br />
+            {{ $t('COVID-19') }}
+            <br />
+            {{ $t('Measures site') }}
           </div>
         </nuxt-link>
       </h1>
@@ -25,20 +26,16 @@
         class="SideNavigation-CloseIcon"
         :aria-label="$t('サイドメニュー項目を閉じる')"
         @click="$emit('closeNavi', $event)"
-      >
-        mdi-close
-      </v-icon>
+      >mdi-close</v-icon>
+
+      <div class="SideNavigation-Language">
+        <label class="SideNavigation-LanguageLabel" for="LanguageSelector">{{ $t('多言語対応選択メニュー') }}</label>
+        <LanguageSelector />
+      </div>
 
       <nav class="SideNavigation-Menu">
         <MenuList :items="items" @click="$emit('closeNavi', $event)" />
       </nav>
-
-      <div class="SideNavigation-Language">
-        <label class="SideNavigation-LanguageLabel" for="LanguageSelector">
-          {{ $t('多言語対応選択メニュー') }}
-        </label>
-        <LanguageSelector />
-      </div>
 
       <footer class="SideNavigation-Footer">
         <div class="SideNavigation-Social">
@@ -80,7 +77,7 @@
           {{ $t('の下に提供されています。') }}
           <br />
           2020 Gifu Prefectural Government
-        </small> -->
+        </small>-->
       </footer>
     </div>
   </div>
@@ -114,12 +111,12 @@ export default {
         {
           icon: 'CovidIcon',
           title: this.$t('If you have any symptoms'),
-          link: this.localePath('/flow'),
+          link: this.localePath('/flow')
         },
         {
           icon: 'mdi-city',
           title: this.$t('岐阜県自治体コロナ対策情報一覧'),
-          link: this.localePath('/municipalities'),
+          link: this.localePath('/municipalities')
         },
         {
           icon: 'mdi-hand-water',
@@ -154,12 +151,13 @@ export default {
         },
         {
           title: this.$t('Other local Government'),
-          link: 'https://github.com/tokyo-metropolitan-gov/covid19/blob/development/FORKED_SITES.md'
+          link:
+            'https://github.com/tokyo-metropolitan-gov/covid19/blob/development/FORKED_SITES.md'
         },
         {
           title: this.$t('About us'),
           link: this.localePath('/about')
-        },
+        }
       ]
     }
   },
