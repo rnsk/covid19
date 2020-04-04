@@ -3,7 +3,7 @@
     <v-toolbar flat class="DataView-content">
       <div class="DataView-TitleContainer">
         <v-toolbar-title>
-          {{ title }}
+          {{ $t(title) }}
         </v-toolbar-title>
         <slot name="button" />
       </div>
@@ -14,8 +14,8 @@
       <slot />
     </v-card-text>
     <v-footer class="DataView-Footer">
-      <time :datetime="date">{{ date }} 更新</time>
-      <a v-if="url" class="OpenDataLink" :href="url" target="_blank" rel="noopener">オープンデータへのリンク
+      <time :datetime="date">{{ date }} {{$t('更新')}}</time>
+      <a v-if="url" class="OpenDataLink" :href="url" target="_blank" rel="noopener"> {{$t('オープンデータへのリンク')}}
         <v-icon class="ExternalLinkIcon" size="15">
           mdi-open-in-new
         </v-icon>
