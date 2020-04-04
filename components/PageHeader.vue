@@ -4,10 +4,10 @@
       <v-icon size="40" class="mr-2">
         {{ icon }}
       </v-icon>
-      {{ title }}
+      {{ $t(title) }}
     </h2>
     <div v-if="date" class="date">
-      <span>最終更新 </span><time>{{ date }}</time>
+      <span>{{ $t('最終更新')}} </span><time>{{ date }}</time>
     </div>
   </div>
 </template>
