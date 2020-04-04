@@ -11,9 +11,7 @@
           <component
             :is="prefixIconTag(item.icon)"
             v-bind="prefixIconAttrs(item.icon)"
-          >
-            {{ item.icon }}
-          </component>
+          >{{ item.icon }}</component>
         </span>
         <span class="MenuList-Title">{{ item.title }}</span>
         <v-icon
@@ -23,9 +21,7 @@
           aria-label="別タブで開く"
           class="MenuList-ExternalIcon"
           size="12"
-        >
-          mdi-open-in-new
-        </v-icon>
+        >mdi-open-in-new</v-icon>
       </component>
     </li>
   </ul>
@@ -94,6 +90,7 @@ export default class MenuList extends Vue {
 
 <style lang="scss" scoped>
 .MenuList {
+  margin-top: 24px;
   padding: 12px 0;
   border-bottom: 1px solid $gray-4;
   @include largerThan($small) {
@@ -175,5 +172,4 @@ export default class MenuList extends Vue {
   margin-left: 2px;
   color: $gray-3;
 }
-
 </style>
