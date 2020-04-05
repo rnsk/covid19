@@ -96,7 +96,7 @@ export default {
       if (this.dataKind === 'transition') {
         return {
           lText: `${this.chartData.slice(-1)[0].transition.toLocaleString()}`,
-          sText: `実績値（前日比：${this.displayTransitionRatio} ${this.unit}）`,
+          sText: `${this.$t('実績値')} (${this.$t('前日比')}: ${this.displayTransitionRatio} ${this.unit})`,
           unit: this.unit
         }
       }
@@ -104,9 +104,9 @@ export default {
         lText: this.chartData[
           this.chartData.length - 1
         ].cumulative.toLocaleString(),
-        sText: `${this.chartData.slice(-1)[0].label} 累計値（前日比：${
+        sText: `${this.chartData.slice(-1)[0].label} ${this.$t('累計値')} (${this.$t('前日比')}: ${
           this.displayCumulativeRatio
-        } ${this.unit}）`,
+      } ${this.unit})`,
         unit: this.unit
       }
     },
@@ -151,7 +151,7 @@ export default {
           displayColors: false,
           callbacks: {
             label(tooltipItem) {
-              const labelText = tooltipItem.value + unit
+              const labelText = tooltipItem.value + ' ' + unit
               return labelText
             }
           }

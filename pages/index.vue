@@ -22,7 +22,7 @@
           :chart-id="'time-bar-chart-patients'"
           :chart-data="patientsGraph"
           :date="patients_summary.last_update"
-          :unit="'人'"
+          :unit="$t('人')"
         />
       </v-col>
       <v-col cols="12" md="12" class="DataCard">
@@ -98,10 +98,11 @@ export default {
       }
       this.patients.last_update = patients.last_update
       this.patients.loaded = true
+      const patientsDate = patients.date
       this.sumInfoOfPatients = {
         lText: patients.data.length,
-        sText: patients.date + 'の累計',
-        unit: '人'
+        sText: this.$t('{patientsDate}の累計', { patientsDate }),
+        unit: this.$t('人')
       }
     },
     getPatientsData(patients_summary) {
