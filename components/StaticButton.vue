@@ -7,7 +7,7 @@
   >
     <span>
       <v-icon size="21" class="StaticButton-icon">mdi-clipboard-flow-outline</v-icon>
-      {{ text }}
+      {{ $t(text) }}
     </span>
   </div>
 </template>

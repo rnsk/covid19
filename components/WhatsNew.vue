@@ -2,7 +2,7 @@
   <div class="WhatsNew">
     <h2 class="WhatsNew-heading">
       <v-icon class="WhatsNew-heading-icon">mdi-information</v-icon>
-      最新のお知らせ（岐阜県公式HPより）
+      {{ $t('最新のお知らせ') }}（{{ $t('岐阜県公式HPより') }}）
     </h2>
     <div v-for="(item, i) in items" :key="i">
       <a class="WhatsNew-item" :href="item.url" target="_blank" rel="noopener">

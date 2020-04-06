@@ -2,13 +2,14 @@
   <div class="MainPage">
     <page-header :icon="headerItem.icon" :title="headerItem.title" :date="headerItem.date" />
     <whats-new :items="newsItems" />
-    <static-button
-      :url="'/flow'"
-      :text="'相談の手順を確認する'"
-    />
+    <static-button :url="'/flow'" :text="'相談の手順を確認する'" />
     <v-row class="DataBlock">
       <v-col cols="12" md="6" class="DataCard">
-        <svg-card title="検査陽性者の状況" :title-id="'details-of-confirmed-cases'" :date="confirmed.last_update">
+        <svg-card
+          title="検査陽性者の状況"
+          :title-id="'details-of-confirmed-cases'"
+          :date="confirmed.last_update"
+        >
           <pulse-loader v-if="!confirmed.loaded" :loading="!confirmed.loaded" color="#808080" />
           <confirmed-cases-table v-else v-bind="confirmedCases" />
         </svg-card>
@@ -21,7 +22,7 @@
           :chart-id="'time-bar-chart-patients'"
           :chart-data="patientsGraph"
           :date="patients_summary.last_update"
-          :unit="'人'"
+          :unit="$t('人')"
         />
       </v-col>
       <v-col cols="12" md="12" class="DataCard">
@@ -64,15 +65,15 @@ export default {
     ConfirmedCasesTable,
     PulseLoader
   },
-  created () {
+  created() {
     this.getNews()
     this.getData()
   },
   methods: {
-    async getNews () {
+    async getNews() {
       this.newsItems = await sheetApi.getNewsData()
     },
-    async getData () {
+    async getData() {
       await sheetApi.graphMainSummary().then(response => {
         this.getConfirmedData(response)
         this.headerItem.date = response.last_update
@@ -84,45 +85,55 @@ export default {
         this.getPatientsTableData(response)
       })
     },
-    getPatientsTableData (patients) {
+    getPatientsTableData(patients) {
+      for (const row of patients.data) {
+        row['居住地'] = this.$t(row['居住地'])
+        row['年代'] = this.$t(row['年代'])
+        row['性別'] = this.$t(row['性別'])
+      }
+
       this.patientsTable = formatTable(patients.data)
+      for (const header of this.patientsTable.headers) {
+        header.text = this.$t(header.value)
+      }
       this.patients.last_update = patients.last_update
       this.patients.loaded = true
+      const patientsDate = patients.date
       this.sumInfoOfPatients = {
         lText: patients.data.length,
-        sText: patients.date + 'の累計',
-        unit: '人'
+        sText: this.$t('{patientsDate}の累計', { patientsDate }),
+        unit: this.$t('人')
       }
     },
-    getPatientsData (patients_summary) {
+    getPatientsData(patients_summary) {
       this.patientsGraph = formatGraph(patients_summary.data)
       this.patients_summary.last_update = patients_summary.last_update
       this.patients_summary.loaded = true
     },
-    getConfirmedData (main_summary) {
+    getConfirmedData(main_summary) {
       this.confirmedCases = formatConfirmedCases(main_summary.data)
       this.confirmed.last_update = main_summary.last_update
       this.confirmed.loaded = true
-    },
+    }
   },
   data() {
     const data = {
       patients: {
         loaded: false,
-        last_update: "",
+        last_update: ''
       },
       patients_summary: {
         loaded: false,
-        last_update: "",
+        last_update: ''
       },
       confirmed: {
         loaded: false,
-        last_update: "",
+        last_update: ''
       },
       /**
        * 全体の最終更新日
        */
-      last_update: "",
+      last_update: '',
       /**
        * 各グラフ系のデータ整理後のデータ
        */
@@ -135,7 +146,7 @@ export default {
         title: '県内の最新感染動向',
         date: ''
       },
-      newsItems: [],
+      newsItems: []
     }
     return data
   },
