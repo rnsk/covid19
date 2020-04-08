@@ -1,7 +1,8 @@
 import purgecss from '@fullhuman/postcss-purgecss'
+import autoprefixer from 'autoprefixer'
 // import { Configuration } from '@nuxt/types'
 import i18n from './nuxt-i18n.config'
-const environment = process.env.NODE_ENV || 'development'
+// const environment = process.env.NODE_ENV || 'development'
 
 /* eslint-disable */
 const config = {
@@ -123,6 +124,7 @@ const config = {
     build: {
         postcss: {
             plugins: [
+                autoprefixer({}),
                 purgecss({
                     content: [
                         './pages/**/*.vue',
