@@ -1,7 +1,7 @@
 <template>
   <div class="TextCard">
     <h2 v-if="title" class="TextCard-Heading">
-      {{ title }}
+      {{ $t(title) }}
     </h2>
     <!-- eslint-disable-next-line vue/no-v-html -->
     <p v-if="body" class="TextCard-Body" v-html="body" />
