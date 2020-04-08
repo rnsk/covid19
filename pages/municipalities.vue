@@ -1,12 +1,13 @@
 <template>
   <div class="Municipalities">
     <page-header :icon="'mdi-city'" :title="$t('岐阜県自治体コロナ対策情報一覧')" />
+    <p class="text-right caption mb-0">({{ $t('50音順') }})</p>
     <v-card>
       <v-card-title>
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
-          :label="$t('Search')"
+          :label="$t('自治体名またはふりがなで検索')"
           single-line
           hide-details
         ></v-text-field>
