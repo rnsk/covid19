@@ -73,27 +73,29 @@ class SheetApi {
   }
 
   getPatients() {
-    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/3/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/1R47TohMIVOIU_GyuOAW42VOBzol_F0FJtLulvBYu5oY/1/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
+        console.log(values)
         values.forEach((value) => {
           const item = {
-            リリース日: dayjs(value.gsx$リリース日.$t, 'YYYY/MM/DD').format() ?? '不明',
-            曜日: value.gsx$曜日.$t,
-            居住地: value.gsx$居住地.$t,
-            年代: value.gsx$年代.$t,
-            性別: value.gsx$性別.$t,
+            リリース日: dayjs(value.gsx$公表年月日.$t, 'YYYY-MM-DD').format() ?? '不明',
+            // 曜日: value.gsx$曜日.$t,
+            居住地: value.gsx$患者居住地.$t,
+            年代: value.gsx$患者年代.$t,
+            性別: value.gsx$患者性別.$t,
             備考: value.gsx$備考.$t,
-            退院: value.gsx$退院.$t,
+            退院: value.gsx$退院済フラグ.$t,
           }
           items.push(item)
         });
         const patients = {
           data: items,
-          last_update: values[values.length - 1].gsx$updated.$t,
-          date: dayjs(values[values.length - 1].gsx$updated.$t).format('YYYY/MM/DD')
+          last_update: values[values.length - 1].updated.$t,
+          date: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD')
         }
+        console.log(patients)
         return patients;
       })
       .catch(e => ({ error: e }));
