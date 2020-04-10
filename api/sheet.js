@@ -91,7 +91,7 @@ class SheetApi {
         });
         const patients = {
           data: items,
-          last_update: values[values.length - 1].updated.$t,
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
           date: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD')
         }
         return patients;
@@ -126,7 +126,7 @@ class SheetApi {
         }, []);
         const inspections_summary = {
           data: group,
-          last_update: values[values.length - 1].updated.$t
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
         return inspections_summary;
       })
