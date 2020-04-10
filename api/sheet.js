@@ -77,7 +77,6 @@ class SheetApi {
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
-        console.log(values)
         values.forEach((value) => {
           const item = {
             リリース日: dayjs(value.gsx$公表年月日.$t, 'YYYY-MM-DD').format() ?? '不明',
@@ -95,7 +94,6 @@ class SheetApi {
           last_update: values[values.length - 1].updated.$t,
           date: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD')
         }
-        console.log(patients)
         return patients;
       })
       .catch(e => ({ error: e }));
