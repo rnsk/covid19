@@ -77,7 +77,6 @@ class SheetApi {
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
-        console.log(values)
         values.forEach((value) => {
           const item = {
             リリース日: dayjs(value.gsx$公表年月日.$t, 'YYYY-MM-DD').format() ?? '不明',
@@ -92,30 +91,42 @@ class SheetApi {
         });
         const patients = {
           data: items,
-          last_update: values[values.length - 1].updated.$t,
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
           date: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD')
         }
-        console.log(patients)
         return patients;
       })
       .catch(e => ({ error: e }));
   }
 
   getPatientsSummary() {
-    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/4/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/1R47TohMIVOIU_GyuOAW42VOBzol_F0FJtLulvBYu5oY/1/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            日付: dayjs(value.gsx$日付.$t, 'YYYY/MM/DD').format() ?? '不明',
-            小計: Number(value.gsx$小計.$t),
+            日付: dayjs(value.gsx$公表年月日.$t, 'YYYY-MM-DD').format() ?? '不明'
           }
           items.push(item)
         });
+
+        // 日付ごとに集計
+        const group = items.reduce((result, current) => {
+          const element = result.find((p) => p.日付 === current.日付);
+          if (element) {
+            element.小計 ++;
+          } else {
+            result.push({
+              日付: current.日付,
+              小計: 1,
+            });
+          }
+          return result;
+        }, []);
         const inspections_summary = {
-          data: items,
-          last_update: values[values.length - 1].gsx$updated.$t
+          data: group,
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
         return inspections_summary;
       })
