@@ -6,7 +6,7 @@ class SheetApi {
     this.apiBase = 'https://spreadsheets.google.com/feeds/list';
     this.macroApiBase = 'https://script.googleusercontent.com/macros/echo';
   }
- 
+
   getNewsData() {
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/1/public/values?alt=json`)
       .then((res) => {
@@ -40,8 +40,8 @@ class SheetApi {
                 value: Number(data.gsx$陽性患者数.$t),
                 children: [
                   {
-                    attr: '入院中',
-                    value: Number(data.gsx$入院中.$t),
+                    attr: '入院中・入院調整中',
+                    value: Number(data.gsx$入院中入院調整中.$t),
                     children: [
                       {
                         attr: '軽症・中等症',
@@ -205,7 +205,7 @@ class SheetApi {
       .catch(e => ({ error: e }));
   }
 }
- 
+
 const sheetApi = new SheetApi();
- 
+
 export default sheetApi;

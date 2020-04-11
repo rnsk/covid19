@@ -50,7 +50,7 @@
   "検査実施件数": "Number of tests conducted",
   "陽性者数": "Number of confirmed cases",
   "累積": "Accumulation (Acc.)",
-  "入院中": "Hospitalized patients",
+  "入院中・入院調整中": "Hospitalized (or in preparation) patients",
   "軽症・中等症": "Minor to moderate symptoms",
   "軽症・<br />中等症": "Minor to moderate symptoms",
   "重症": "Severe symptoms",
