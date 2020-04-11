@@ -175,6 +175,7 @@ class SheetApi {
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
+            id:items.length,
             consultation: value.gsx$consultation.$t,
             name: value.gsx$name.$t,
             tel1: value.gsx$tel1.$t,
