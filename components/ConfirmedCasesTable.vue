@@ -28,9 +28,9 @@
         <li :class="[$style.box, $style.parent, $style.hospitalized]">
           <div :class="$style.pillar">
             <div :class="$style.content">
-              <span>{{ $t('入院中') }}</span>
+              <span>{{ $t('入院中・入院調整中') }}</span>
               <span>
-                <strong>{{ 入院中 }}</strong>
+                <strong>{{ 入院中入院調整中 }}</strong>
                 <span :class="$style.unit">{{ $t('人') }}</span>
               </span>
             </div>
@@ -102,7 +102,7 @@ export default Vue.extend({
       type: Number,
       required: true
     },
-    入院中: {
+    入院中入院調整中: {
       type: Number,
       required: true
     },
@@ -216,7 +216,7 @@ $default-boxdiff: 35px;
     width: 15.3%;
     flex: 0 0 auto;
     text-align: center;
-    display:block;
+    display: block;
     padding-top: $default-boxh -$default-boxdiff - $default-bdw - 2;
 
     &::after {
