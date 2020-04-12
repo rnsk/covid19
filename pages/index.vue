@@ -36,6 +36,42 @@
           :info="sumInfoOfPatients"
         />
       </v-col>
+      <v-col cols="12" md="6" class="DataCard">
+        <time-bar-chart
+          :loaded="inspections.loaded"
+          title="検査実施数"
+          :title-id="'number-of-tested'"
+          :chart-id="'time-bar-chart-inspections'"
+          :chart-data="inspectionsGraph"
+          :date="inspections.last_update"
+          :unit="'件'"
+          :info="''"
+        />
+      </v-col>
+      <v-col cols="12" md="6" class="DataCard">
+        <time-bar-chart
+          :loaded="callcenter.loaded"
+          title="健康相談窓口相談件数"
+          :title-id="'number-of-callcenter'"
+          :chart-id="'time-bar-chart-callcenter'"
+          :chart-data="callcenterGraph"
+          :date="callcenter.last_update"
+          :unit="'件'"
+          :info="''"
+        />
+      </v-col>
+      <v-col cols="12" md="6" class="DataCard">
+        <time-bar-chart
+          :loaded="advicecenter.loaded"
+          title="帰国者・接触者相談センター相談件数"
+          :title-id="'number-of-advicecenter'"
+          :chart-id="'time-bar-chart-advicecenter'"
+          :chart-data="advicecenterGraph"
+          :date="advicecenter.last_update"
+          :unit="'件'"
+          :info="''"
+        />
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -84,6 +120,15 @@ export default {
       await sheetApi.getPatients().then(response => {
         this.getPatientsTableData(response)
       })
+      await sheetApi.getInspectionsSummary().then(response => {
+        this.getInspectionsData(response)
+      })
+      await sheetApi.getCallCenterSummary().then(response => {
+        this.getCallCenterData(response)
+      })
+      await sheetApi.getAdviceCenterSummary().then(response => {
+        this.getAdviceCenterData(response)
+      })
     },
     getPatientsTableData(patients) {
       for (const row of patients.data) {
@@ -114,6 +159,21 @@ export default {
       this.confirmedCases = formatConfirmedCases(main_summary.data)
       this.confirmed.last_update = main_summary.last_update
       this.confirmed.loaded = true
+    },
+    getInspectionsData(inspections_summary) {
+      this.inspectionsGraph = formatGraph(inspections_summary.data)
+      this.inspections.last_update = inspections_summary.last_update
+      this.inspections.loaded = true
+    },
+    getCallCenterData(callcenter_summary) {
+      this.callcenterGraph = formatGraph(callcenter_summary.data)
+      this.callcenter.last_update = callcenter_summary.last_update
+      this.callcenter.loaded = true
+    },
+    getAdviceCenterData(advicecenter_summary) {
+      this.advicecenterGraph = formatGraph(advicecenter_summary.data)
+      this.advicecenter.last_update = advicecenter_summary.last_update
+      this.advicecenter.loaded = true
     }
   },
   data() {
@@ -130,6 +190,18 @@ export default {
         loaded: false,
         last_update: ''
       },
+      inspections: {
+        loaded: false,
+        last_update: ''
+      },
+      callcenter: {
+        loaded: false,
+        last_update: ''
+      },
+      advicecenter: {
+        loaded: false,
+        last_update: ''
+      },
       /**
        * 全体の最終更新日
        */
@@ -140,6 +212,9 @@ export default {
       patientsTable: {},
       patientsGraph: [],
       confirmedCases: {},
+      inspectionsGraph: [],
+      callcenterGraph: [],
+      advicecenterGraph: [],
       sumInfoOfPatients: {},
       headerItem: {
         icon: 'mdi-chart-timeline-variant',

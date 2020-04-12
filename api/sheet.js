@@ -6,7 +6,7 @@ class SheetApi {
     this.apiBase = 'https://spreadsheets.google.com/feeds/list';
     this.macroApiBase = 'https://script.googleusercontent.com/macros/echo';
   }
- 
+
   getNewsData() {
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/1/public/values?alt=json`)
       .then((res) => {
@@ -115,7 +115,7 @@ class SheetApi {
         const group = items.reduce((result, current) => {
           const element = result.find((p) => p.日付 === current.日付);
           if (element) {
-            element.小計 ++;
+            element.小計++;
           } else {
             result.push({
               日付: current.日付,
@@ -140,19 +140,62 @@ class SheetApi {
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            日付: dayjs(value.gsx$日付.$t, 'YYYY/MM/DD').format() ?? '不明',
-            小計: Number(value.gsx$実施件数.$t),
+            日付: dayjs(value.gsx$実施年月日.$t, 'YYYY/MM/DD').format() ?? '不明',
+            小計: Number(value.gsx$検査実施件数.$t),
           }
           items.push(item)
         });
         const inspections_summary = {
           data: items,
-          last_update: values[values.length - 1].gsx$updated.$t
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
         return inspections_summary;
       })
       .catch(e => ({ error: e }));
   }
+
+  getCallCenterSummary() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/7/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            日付: dayjs(value.gsx$受付年月日.$t, 'YYYY/MM/DD').format() ?? '不明',
+            小計: Number(value.gsx$相談件数.$t),
+          }
+          items.push(item)
+        });
+        const callcenter_summary = {
+          data: items,
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
+        }
+        return callcenter_summary;
+      })
+      .catch(e => ({ error: e }));
+  }
+
+  getAdviceCenterSummary() {
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/8/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            日付: dayjs(value.gsx$受付年月日.$t, 'YYYY/MM/DD').format() ?? '不明',
+            小計: Number(value.gsx$帰国者接触者相談センター相談件数.$t),
+          }
+          items.push(item)
+        });
+        const advicecenter_summary = {
+          data: items,
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
+        }
+        return advicecenter_summary;
+      })
+      .catch(e => ({ error: e }));
+  }
+
 
   getMunicipalityLink() {
     return axios.get(`${this.apiBase}/1Dm9dsei-QXmilRN9V7IVmgnZuC8aRsFQE5RPR0-L7bI/1/public/values?alt=json`)
@@ -218,7 +261,7 @@ class SheetApi {
       .catch(e => ({ error: e }));
   }
 }
- 
+
 const sheetApi = new SheetApi();
- 
+
 export default sheetApi;
