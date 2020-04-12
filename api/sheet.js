@@ -6,7 +6,7 @@ class SheetApi {
     this.apiBase = 'https://spreadsheets.google.com/feeds/list';
     this.macroApiBase = 'https://script.googleusercontent.com/macros/echo';
   }
- 
+
   getNewsData() {
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/1/public/values?alt=json`)
       .then((res) => {
@@ -40,8 +40,8 @@ class SheetApi {
                 value: Number(data.gsx$陽性患者数.$t),
                 children: [
                   {
-                    attr: '入院中',
-                    value: Number(data.gsx$入院中.$t),
+                    attr: '入院中・入院調整中',
+                    value: Number(data.gsx$入院中入院調整中.$t),
                     children: [
                       {
                         attr: '軽症・中等症',
@@ -165,6 +165,39 @@ class SheetApi {
       .catch(e => ({ error: e }));
   }
 
+  /**
+   * 岐阜県相談窓口一覧情報の取得
+   */
+  getConsultations() {
+    return axios.get(`${this.apiBase}/10b0NTVctq3jjSvaA6-Vc-dQJYt5FFEP292MLzkCdazs/1/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            id:items.length,
+            consultation: value.gsx$consultation.$t,
+            name: value.gsx$name.$t,
+            tel1: value.gsx$tel1.$t,
+            tel2: value.gsx$tel2.$t,
+            ontime: value.gsx$ontime.$t,
+            addr: value.gsx$addr.$t,
+            locname: value.gsx$locname.$t,
+            lon: value.gsx$lon.$t,
+            lat: value.gsx$lat.$t,
+            classification: value.gsx$classification.$t,
+            color: value.gsx$color.$t
+          }
+          items.push(item)
+        });
+        const links = {
+          data: items
+        }
+        return links;
+      })
+      .catch(e => ({ error: e }));
+  }
+
   graphData() {
     return axios.get(`${this.macroApiBase}?user_content_key=lttTvfv73JB1_0b3dWmanW_0P9DGkUcm-AfsaNdLi66LA3jZN-2LxoI61hsD1XcvX7wjJPbA-aQMU8fYuYzu_il2z3j02F4um5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnP9k53dGa_9bOh55uXRyK3KuHQRrFP7y3JXXDLFBzyALBHA50y4X5nQTHbX7VSKaSRdIug5zkO6q&lib=MkDaaQ5v_1yAZBU3X6zh8HTFkUrmYniUZ`)
       .then((res) => {
@@ -173,7 +206,7 @@ class SheetApi {
       .catch(e => ({ error: e }));
   }
 }
- 
+
 const sheetApi = new SheetApi();
- 
+
 export default sheetApi;
