@@ -124,13 +124,36 @@ class SheetApi {
           }
           return result;
         }, []);
-        const inspections_summary = {
-          data: group,
+        const patients_summary = {
+          data: this.addPaddingDay2Summary(group),
           last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
-        return inspections_summary;
+        return patients_summary;
       })
       .catch(e => ({ error: e }));
+  }
+
+  addPaddingDay2Summary(summary_data) {
+    var items = [];
+    var pos = 0;
+    var day_diff = dayjs(summary_data[summary_data.length - 1]['日付']).diff(summary_data[0]['日付'], 'days', false);
+
+    for (var i = 0; i < day_diff; i++) {
+      var current_day = dayjs(summary_data[0]['日付'], 'YYYY-MM-DD').add(i, 'days');
+
+      if (dayjs(summary_data[pos]['日付']).isSame(current_day)) {
+        items.push(summary_data[pos]);
+        pos++;
+      }
+      else {
+        const item = {
+          日付: current_day,
+          小計: 0,
+        }
+        items.push(item)
+      }
+    }
+    return items;
   }
 
   getInspectionsSummary() {
