@@ -26,46 +26,68 @@ class SheetApi {
       .catch(e => ({ error: e }));
   }
 
-  graphMainSummary() {
-    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/2/public/values?alt=json`)
+  graphMainSummary(inspections_sum) {
+    return axios.get(`${this.apiBase}/1R47TohMIVOIU_GyuOAW42VOBzol_F0FJtLulvBYu5oY/1/public/values?alt=json`)
       .then((res) => {
-        const data = res.data.feed.entry[0]
+        const items = { '検査実施件数': inspections_sum, '陽性患者数': 0, '入院中': 0, '軽症・中等症': 0, '重症': 0, '退院': 0, '死亡': 0 }
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          if (value.gsx$退院済フラグ.$t == 1) {
+            if (value.gsx$患者状態.$t == '死亡') {
+              items['死亡']++;
+            }
+            else {
+              items['退院']++;
+            }
+          }
+          else {
+            if (value.gsx$患者状態.$t == '軽症') {
+              items['軽症・中等症']++;
+            }
+            else {
+              items['重症']++;
+            }
+          }
+        });
+        items['入院中'] = items['軽症・中等症'] + items['重症'];
+        items['陽性患者数'] = items['入院中'] + items['退院'] + items['死亡'];
+
         const main_summary = {
           data: {
             attr: '検査実施件数',
-            value: Number(data.gsx$検査実施件数.$t),
+            value: items['検査実施件数'],
             children: [
               {
                 attr: '陽性患者数',
-                value: Number(data.gsx$陽性患者数.$t),
+                value: items['陽性患者数'],
                 children: [
                   {
                     attr: '入院中',
-                    value: Number(data.gsx$入院中.$t),
+                    value: items['入院中'],
                     children: [
                       {
                         attr: '軽症・中等症',
-                        value: Number(data.gsx$軽症中等症.$t),
+                        value: items['軽症・中等症'],
                       },
                       {
                         attr: '重症',
-                        value: Number(data.gsx$重症.$t),
+                        value: items['重症'],
                       }
                     ]
                   },
                   {
                     attr: '退院',
-                    value: Number(data.gsx$退院.$t),
+                    value: items['退院'],
                   },
                   {
                     attr: '死亡',
-                    value: Number(data.gsx$死亡.$t),
+                    value: items['死亡'],
                   }
                 ]
               }
             ]
           },
-          last_update: data.gsx$lastupdate.$t,
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
         return main_summary;
       })

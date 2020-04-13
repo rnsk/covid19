@@ -110,18 +110,22 @@ export default {
       this.newsItems = await sheetApi.getNewsData()
     },
     async getData() {
-      await sheetApi.graphMainSummary().then(response => {
-        this.getConfirmedData(response)
-        this.headerItem.date = response.last_update
+      await sheetApi.getInspectionsSummary().then(response => {
+        this.getInspectionsData(response)
       })
+      await sheetApi
+        .graphMainSummary(
+          this.inspectionsGraph[this.inspectionsGraph.length - 1].cumulative
+        )
+        .then(response => {
+          this.getConfirmedData(response)
+          this.headerItem.date = response.last_update
+        })
       await sheetApi.getPatientsSummary().then(response => {
         this.getPatientsData(response)
       })
       await sheetApi.getPatients().then(response => {
         this.getPatientsTableData(response)
-      })
-      await sheetApi.getInspectionsSummary().then(response => {
-        this.getInspectionsData(response)
       })
       await sheetApi.getCallCenterSummary().then(response => {
         this.getCallCenterData(response)
