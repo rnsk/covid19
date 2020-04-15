@@ -163,17 +163,22 @@ class SheetApi {
 
     for (var i = 0; i <= day_diff; i++) {
       var current_day = dayjs(summary_data[0]['日付'], 'YYYY-MM-DD').add(i, 'days');
+      const item_padding = {
+        日付: current_day,
+        小計: 0,
+      };
+
+      if (pos >= summary_data.length) {
+        items.push(item_padding)
+        continue;
+      }
 
       if (dayjs(summary_data[pos]['日付']).isSame(current_day)) {
         items.push(summary_data[pos]);
         pos++;
       }
       else {
-        const item = {
-          日付: current_day,
-          小計: 0,
-        }
-        items.push(item)
+        items.push(item_padding)
       }
     }
     return items;
