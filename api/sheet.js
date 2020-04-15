@@ -101,6 +101,7 @@ class SheetApi {
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
+            No: value.gsx$no.$t,
             リリース日: dayjs(value.gsx$公表年月日.$t, 'YYYY-MM-DD').format() ?? '不明',
             // 曜日: value.gsx$曜日.$t,
             居住地: value.gsx$患者居住地.$t,
