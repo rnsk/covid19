@@ -161,7 +161,7 @@ class SheetApi {
     var pos = 0;
     var day_diff = dayjs(summary_data[summary_data.length - 1]['日付']).diff(summary_data[0]['日付'], 'days', false);
 
-    for (var i = 0; i < day_diff; i++) {
+    for (var i = 0; i <= day_diff; i++) {
       var current_day = dayjs(summary_data[0]['日付'], 'YYYY-MM-DD').add(i, 'days');
 
       if (dayjs(summary_data[pos]['日付']).isSame(current_day)) {
