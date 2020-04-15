@@ -41,11 +41,11 @@ class SheetApi {
             }
           }
           else {
-            if (value.gsx$患者状態.$t == '軽症') {
-              items['軽症・中等症']++;
+            if (value.gsx$患者状態.$t == '重症') {
+              items['重症']++;
             }
             else {
-              items['重症']++;
+              items['軽症・中等症']++;
             }
           }
         });
