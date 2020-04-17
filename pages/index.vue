@@ -34,6 +34,7 @@
           :chart-option="{}"
           :date="patients.last_update"
           :info="sumInfoOfPatients"
+          :sorting="patientsTableSorting"
         />
       </v-col>
     </v-row>
@@ -145,6 +146,10 @@ export default {
         icon: 'mdi-chart-timeline-variant',
         title: '県内の最新感染動向',
         date: ''
+      },
+      patientsTableSorting: {
+        sortBy: '日付',
+        sortDesc: true
       },
       newsItems: []
     }
