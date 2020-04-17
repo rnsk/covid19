@@ -41,11 +41,11 @@ class SheetApi {
             }
           }
           else {
-            if (value.gsx$患者状態.$t == '軽症') {
-              items['軽症・中等症']++;
+            if (value.gsx$患者状態.$t == '重症') {
+              items['重症']++;
             }
             else {
-              items['重症']++;
+              items['軽症・中等症']++;
             }
           }
         });
@@ -161,19 +161,24 @@ class SheetApi {
     var pos = 0;
     var day_diff = dayjs(summary_data[summary_data.length - 1]['日付']).diff(summary_data[0]['日付'], 'days', false);
 
-    for (var i = 0; i < day_diff; i++) {
+    for (var i = 0; i <= day_diff; i++) {
       var current_day = dayjs(summary_data[0]['日付'], 'YYYY-MM-DD').add(i, 'days');
+      const item_padding = {
+        日付: current_day,
+        小計: 0,
+      };
+
+      if (pos >= summary_data.length) {
+        items.push(item_padding)
+        continue;
+      }
 
       if (dayjs(summary_data[pos]['日付']).isSame(current_day)) {
         items.push(summary_data[pos]);
         pos++;
       }
       else {
-        const item = {
-          日付: current_day,
-          小計: 0,
-        }
-        items.push(item)
+        items.push(item_padding)
       }
     }
     return items;
