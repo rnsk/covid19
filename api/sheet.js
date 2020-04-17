@@ -95,7 +95,7 @@ class SheetApi {
   }
 
   getPatients() {
-    return axios.get(`${this.apiBase}/1R47TohMIVOIU_GyuOAW42VOBzol_F0FJtLulvBYu5oY/1/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/12/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
@@ -123,7 +123,7 @@ class SheetApi {
   }
 
   getPatientsSummary() {
-    return axios.get(`${this.apiBase}/1R47TohMIVOIU_GyuOAW42VOBzol_F0FJtLulvBYu5oY/1/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/12/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
