@@ -5,9 +5,15 @@ class SheetApi {
   constructor() {
     this.apiBase = 'https://spreadsheets.google.com/feeds/list';
     this.macroApiBase = 'https://script.googleusercontent.com/macros/echo';
+    this.cache = {};
   }
 
+  // データのキャッシュ用
+  cache = {}
+
   getNewsData() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.newsData) return this.loadCache(this.cache.newsData);
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/1/public/values?alt=json`)
       .then((res) => {
         let num = 2
@@ -21,12 +27,15 @@ class SheetApi {
           };
           items.push(item)
         }
+        this.cache.newsData = items;//cacheへ格納
         return items;
       })
       .catch(e => ({ error: e }));
   }
 
   graphMainSummary() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.graphMainSummary) return this.loadCache(this.cache.graphMainSummary);
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/2/public/values?alt=json`)
       .then((res) => {
         const data = res.data.feed.entry[0]
@@ -67,12 +76,15 @@ class SheetApi {
           },
           last_update: data.gsx$lastupdate.$t,
         }
+        this.cache.graphMainSummary = main_summary;//cacheへ格納
         return main_summary;
       })
       .catch(e => ({ error: e }));
   }
 
   getPatients() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.patients) return this.loadCache(this.cache.patients);
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/3/public/values?alt=json`)
       .then((res) => {
         const items = []
@@ -94,12 +106,15 @@ class SheetApi {
           last_update: values[values.length - 1].gsx$updated.$t,
           date: dayjs(values[values.length - 1].gsx$updated.$t).format('YYYY/MM/DD')
         }
+        this.cache.patients = patients;//cacheへ格納
         return patients;
       })
       .catch(e => ({ error: e }));
   }
 
   getPatientsSummary() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.patientsSummary) return this.loadCache(this.cache.patientsSummary);
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/4/public/values?alt=json`)
       .then((res) => {
         const items = []
@@ -115,12 +130,15 @@ class SheetApi {
           data: items,
           last_update: values[values.length - 1].gsx$updated.$t
         }
+        this.cache.patientsSummary = inspections_summary;//cacheへ格納
         return inspections_summary;
       })
       .catch(e => ({ error: e }));
   }
 
   getInspectionsSummary() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.inspectionsSummary) return this.loadCache(this.cache.inspectionsSummary);
     return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/5/public/values?alt=json`)
       .then((res) => {
         const items = []
@@ -136,12 +154,15 @@ class SheetApi {
           data: items,
           last_update: values[values.length - 1].gsx$updated.$t
         }
+        this.cache.inspectionsSummary = inspections_summary;//cacheへ格納
         return inspections_summary;
       })
       .catch(e => ({ error: e }));
   }
 
   getMunicipalityLink() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.municipalitylink) return this.loadCache(this.cache.municipalitylink);
     return axios.get(`${this.apiBase}/1Dm9dsei-QXmilRN9V7IVmgnZuC8aRsFQE5RPR0-L7bI/1/public/values?alt=json`)
       .then((res) => {
         const items = []
@@ -160,6 +181,7 @@ class SheetApi {
         const links = {
           data: items
         }
+        this.cache.municipalitylink = links;//cacheへ格納
         return links;
       })
       .catch(e => ({ error: e }));
@@ -169,6 +191,8 @@ class SheetApi {
    * 岐阜県相談窓口一覧情報の取得
    */
   getConsultations() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.consultations) return this.loadCache(this.cache.consultations);
     return axios.get(`${this.apiBase}/10b0NTVctq3jjSvaA6-Vc-dQJYt5FFEP292MLzkCdazs/1/public/values?alt=json`)
       .then((res) => {
         const items = []
@@ -193,6 +217,7 @@ class SheetApi {
         const links = {
           data: items
         }
+        this.cache.consultations = links;//cacheへ格納
         return links;
       })
       .catch(e => ({ error: e }));
@@ -205,6 +230,12 @@ class SheetApi {
       })
       .catch(e => ({ error: e }));
   }
+
+  loadCache(data) {
+    const links =  data;
+    return new Promise((resolve) => {resolve(links)}).then((data) => {return data});
+  }
+
 }
 
 const sheetApi = new SheetApi();
