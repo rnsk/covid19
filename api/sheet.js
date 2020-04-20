@@ -27,7 +27,7 @@ class SheetApi {
   }
 
   graphMainSummary(inspections_sum) {
-    return axios.get(`${this.apiBase}/1R47TohMIVOIU_GyuOAW42VOBzol_F0FJtLulvBYu5oY/1/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/12/public/values?alt=json`)
       .then((res) => {
         const items = { '検査実施件数': inspections_sum, '陽性患者数': 0, '入院中': 0, '軽症・中等症': 0, '重症': 0, '退院': 0, '死亡': 0 }
         const values = Object.values(res.data.feed.entry)
