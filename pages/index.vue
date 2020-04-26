@@ -75,15 +75,28 @@ export default {
       this.newsItems = await sheetApi.getNewsData()
     },
     async getData() {
-      await sheetApi.graphMainSummary().then(response => {
-        this.getConfirmedData(response)
-        this.headerItem.date = response.last_update
+      await sheetApi.getInspectionsSummary().then(response => {
+        this.getInspectionsData(response)
       })
+      await sheetApi
+        .graphMainSummary(
+          this.inspectionsGraph[this.inspectionsGraph.length - 1].cumulative
+        )
+        .then(response => {
+          this.getConfirmedData(response)
+          this.headerItem.date = response.last_update
+        })
       await sheetApi.getPatientsSummary().then(response => {
         this.getPatientsData(response)
       })
       await sheetApi.getPatients().then(response => {
         this.getPatientsTableData(response)
+      })
+      await sheetApi.getCallCenterSummary().then(response => {
+        this.getCallCenterData(response)
+      })
+      await sheetApi.getAdviceCenterSummary().then(response => {
+        this.getAdviceCenterData(response)
       })
     },
     getPatientsTableData(patients) {
@@ -115,6 +128,21 @@ export default {
       this.confirmedCases = formatConfirmedCases(main_summary.data)
       this.confirmed.last_update = main_summary.last_update
       this.confirmed.loaded = true
+    },
+    getInspectionsData(inspections_summary) {
+      this.inspectionsGraph = formatGraph(inspections_summary.data)
+      this.inspections.last_update = inspections_summary.last_update
+      this.inspections.loaded = true
+    },
+    getCallCenterData(callcenter_summary) {
+      this.callcenterGraph = formatGraph(callcenter_summary.data)
+      this.callcenter.last_update = callcenter_summary.last_update
+      this.callcenter.loaded = true
+    },
+    getAdviceCenterData(advicecenter_summary) {
+      this.advicecenterGraph = formatGraph(advicecenter_summary.data)
+      this.advicecenter.last_update = advicecenter_summary.last_update
+      this.advicecenter.loaded = true
     }
   },
   data() {
@@ -131,6 +159,18 @@ export default {
         loaded: false,
         last_update: ''
       },
+      inspections: {
+        loaded: false,
+        last_update: ''
+      },
+      callcenter: {
+        loaded: false,
+        last_update: ''
+      },
+      advicecenter: {
+        loaded: false,
+        last_update: ''
+      },
       /**
        * 全体の最終更新日
        */
@@ -141,6 +181,9 @@ export default {
       patientsTable: {},
       patientsGraph: [],
       confirmedCases: {},
+      inspectionsGraph: [],
+      callcenterGraph: [],
+      advicecenterGraph: [],
       sumInfoOfPatients: {},
       headerItem: {
         icon: 'mdi-chart-timeline-variant',
@@ -148,7 +191,7 @@ export default {
         date: ''
       },
       patientsTableSorting: {
-        sortBy: '日付',
+        sortBy: 'No',
         sortDesc: true
       },
       newsItems: []
