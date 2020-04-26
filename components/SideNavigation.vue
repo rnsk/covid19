@@ -119,6 +119,11 @@ export default {
           link: this.localePath('/municipalities')
         },
         {
+          icon: 'mdi-phone',
+          title: this.$t('岐阜県コロナ相談窓口一覧'),
+          link: this.localePath('/consultations')
+        },
+        {
           icon: 'mdi-hand-water',
           title: this.$t('新型コロナウイルス感染症の予防について'),
           link: this.localePath('/precaution'),

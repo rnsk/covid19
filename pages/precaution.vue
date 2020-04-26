@@ -20,13 +20,13 @@
       </p>
       <v-row class="DataBlock">
         <v-col cols="12" md="4">
-          <video-player :title="$t('手洗い編')" :videoId="'zYOvdzxB2Uk'" />
+          <video-player :title="$t('手洗い編')" :videoId="'brH_cFl-WCM'" />
         </v-col>
         <v-col cols="12" md="4">
-          <video-player :title="$t('咳エチケット編')" :videoId="'Agk5OibzAgI'" />
+          <video-player :title="$t('咳エチケット編')" :videoId="'M0JcNeMQ75s'" />
         </v-col>
         <v-col cols="12" md="4">
-          <video-player　:title="$t('人にうつさない編')" :videoId="'FlfmBNg92AA'" />
+          <video-player　:title="$t('人にうつさない編')" :videoId="'siNMgHDRwT4'" />
         </v-col>
       </v-row>
     </StaticCard>

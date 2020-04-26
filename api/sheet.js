@@ -5,9 +5,14 @@ class SheetApi {
   constructor() {
     this.apiBase = 'https://spreadsheets.google.com/feeds/list';
     this.macroApiBase = 'https://script.googleusercontent.com/macros/echo';
+    this.cache = {};
   }
 
+  // データのキャッシュ用
+  cache = {}
+
   getNewsData() {
+    if (this.cache.newsData) return this.loadCache(this.cache.newsData);
     return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/1/public/values?alt=json`)
       .then((res) => {
         let num = 2
@@ -21,15 +26,18 @@ class SheetApi {
           };
           items.push(item)
         }
+        this.cache.newsData = items;//cacheへ格納
         return items;
       })
       .catch(e => ({ error: e }));
   }
 
   graphMainSummary(inspections_sum) {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.graphMainSummary) return this.loadCache(this.cache.graphMainSummary);
     return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)
       .then((res) => {
-        const items = { '検査実施件数': inspections_sum, '陽性患者数': 0, '入院中': 0, '軽症・中等症': 0, '重症': 0, '退院': 0, '死亡': 0 }
+        const items = { '検査実施件数': inspections_sum, '陽性患者数': 0, '入院中入院調整中': 0, '軽症・中等症': 0, '重症': 0, '退院': 0, '死亡': 0 }
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           if (value.gsx$退院済フラグ.$t == 1) {
@@ -49,8 +57,8 @@ class SheetApi {
             }
           }
         });
-        items['入院中'] = items['軽症・中等症'] + items['重症'];
-        items['陽性患者数'] = items['入院中'] + items['退院'] + items['死亡'];
+        items['入院中入院調整中'] = items['軽症・中等症'] + items['重症'];
+        items['陽性患者数'] = items['入院中入院調整中'] + items['退院'] + items['死亡'];
 
         const main_summary = {
           data: {
@@ -62,8 +70,8 @@ class SheetApi {
                 value: items['陽性患者数'],
                 children: [
                   {
-                    attr: '入院中',
-                    value: items['入院中'],
+                    attr: '入院中入院調整中',
+                    value: items['入院中入院調整中'],
                     children: [
                       {
                         attr: '軽症・中等症',
@@ -89,12 +97,15 @@ class SheetApi {
           },
           last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
+        this.cache.graphMainSummary = main_summary;//cacheへ格納
         return main_summary;
       })
       .catch(e => ({ error: e }));
   }
 
   getPatients() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.patients) return this.loadCache(this.cache.patients);
     return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)
       .then((res) => {
         const items = []
@@ -117,13 +128,16 @@ class SheetApi {
           last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
           date: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD')
         }
+        this.cache.patients = patients;//cacheへ格納
         return patients;
       })
       .catch(e => ({ error: e }));
   }
 
   getPatientsSummary() {
-    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.patientsSummary) return this.loadCache(this.cache.patientsSummary);
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)    
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
@@ -151,6 +165,7 @@ class SheetApi {
           data: this.addPaddingDay2Summary(group),
           last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
+        this.cache.patientsSummary = patients_summary;//cacheへ格納
         return patients_summary;
       })
       .catch(e => ({ error: e }));
@@ -185,6 +200,8 @@ class SheetApi {
   }
 
   getInspectionsSummary() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.inspectionsSummary) return this.loadCache(this.cache.inspectionsSummary);
     return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/3/public/values?alt=json`)
       .then((res) => {
         const items = []
@@ -200,12 +217,15 @@ class SheetApi {
           data: items,
           last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
+        this.cache.inspectionsSummary = inspections_summary;//cacheへ格納
         return inspections_summary;
       })
       .catch(e => ({ error: e }));
   }
 
   getCallCenterSummary() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.callcenterSummary) return this.loadCache(this.cache.callcenterSummary);
     return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/4/public/values?alt=json`)
       .then((res) => {
         const items = []
@@ -221,12 +241,15 @@ class SheetApi {
           data: items,
           last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
+        this.cache.callcenterSummary = callcenter_summary;//cacheへ格納
         return callcenter_summary;
       })
       .catch(e => ({ error: e }));
   }
 
   getAdviceCenterSummary() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.advicecenterSummary) return this.loadCache(this.cache.advicecenterSummary);
     return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/5/public/values?alt=json`)
       .then((res) => {
         const items = []
@@ -242,6 +265,7 @@ class SheetApi {
           data: items,
           last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
+        this.cache.advicecenterSummary = advicecenter_summary;//cacheへ格納
         return advicecenter_summary;
       })
       .catch(e => ({ error: e }));
@@ -249,6 +273,8 @@ class SheetApi {
 
 
   getMunicipalityLink() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.municipalitylink) return this.loadCache(this.cache.municipalitylink);
     return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/7/public/values?alt=json`)
       .then((res) => {
         const items = []
@@ -267,6 +293,7 @@ class SheetApi {
         const links = {
           data: items
         }
+        this.cache.municipalitylink = links;//cacheへ格納
         return links;
       })
       .catch(e => ({ error: e }));
@@ -276,12 +303,15 @@ class SheetApi {
    * 岐阜県相談窓口一覧情報の取得
    */
   getConsultations() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.consultations) return this.loadCache(this.cache.consultations);
     return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/8/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
+            id:items.length,
             consultation: value.gsx$consultation.$t,
             name: value.gsx$name.$t,
             tel1: value.gsx$tel1.$t,
@@ -299,6 +329,7 @@ class SheetApi {
         const links = {
           data: items
         }
+        this.cache.consultations = links;//cacheへ格納
         return links;
       })
       .catch(e => ({ error: e }));
@@ -311,6 +342,12 @@ class SheetApi {
       })
       .catch(e => ({ error: e }));
   }
+
+  loadCache(data) {
+    const links =  data;
+    return new Promise((resolve) => {resolve(links)}).then((data) => {return data});
+  }
+
 }
 
 const sheetApi = new SheetApi();

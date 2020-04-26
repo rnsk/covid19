@@ -34,12 +34,13 @@
           :chart-option="{}"
           :date="patients.last_update"
           :info="sumInfoOfPatients"
+          :sorting="patientsTableSorting"
         />
       </v-col>
       <v-col cols="12" md="6" class="DataCard">
         <time-bar-chart
           :loaded="inspections.loaded"
-          title="検査実施数"
+          title="検査実施件数"
           :title-id="'number-of-tested'"
           :chart-id="'time-bar-chart-inspections'"
           :chart-data="inspectionsGraph"
@@ -224,6 +225,10 @@ export default {
         icon: 'mdi-chart-timeline-variant',
         title: '県内の最新感染動向',
         date: ''
+      },
+      patientsTableSorting: {
+        sortBy: 'No',
+        sortDesc: true
       },
       newsItems: []
     }
