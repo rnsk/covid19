@@ -21,16 +21,16 @@
 
     <div :class="$style.callcenter">
       <p :class="$style.fzLarge">
-        {{ $t('県健康福祉政策課') }}
+        {{ $t('県民総合相談窓口（コールセンター）') }}
       </p>
       <p :class="$style.open">
-        {{ $t('8:30〜17:15（平日のみ）') }}
+        {{ $t('8:30〜17:15') }}
       </p>
       <p :class="[$style.phone, $style.fzNumeric]">
         <span :class="$style.icon">
           <PhoneIcon alt="Phone" />
         </span>
-        <a href="tel:0582721111">058-272-1111<br />(内線2515、2516)</a>
+        <a href="tel:0582728198">058-272-8198<br /></a>
       </p>
     </div>
 

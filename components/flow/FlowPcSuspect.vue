@@ -46,20 +46,20 @@
 
     <div :class="[$style.SubtleBox, $style.Box2, $style.Center]">
       <div :class="$style.LargerText">
-        {{ $t('県健康福祉政策課') }}
+        {{ $t('県民総合相談窓口（コールセンター）') }}
       </div>
       <div :class="$style.SmallerText">
-        {{ $t('8:30〜17:15（平日のみ）') }}
+        {{ $t('8:30〜17:15') }}
       </div>
 
       <div :class="$style.Tel">
-        <a :class="$style.TelLink" href="tel:0582721111">
+        <a :class="$style.TelLink" href="tel:0582728198">
           <img
             :class="$style.TelLinkIcon"
             src="/flow/phone-24px.svg"
             aria-hidden="true"
           />
-          058-272-1111<br />(内線2515、2516)
+          058-272-8198<br />
         </a>
       </div>
     </div>

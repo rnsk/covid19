@@ -4,11 +4,11 @@
       <div>
         <p :class="$style.h1">
           {{ $t('PCR検査') }}
-          <span :class="$style.small">{{ $t('※') }}</span>
+          <!--span :class="$style.small">{{ $t('※') }}</!span -->
         </p>
-        <p :class="$style.content">
+        <!--p :class="$style.content">
           {{ $t('東京都健康安全研究センター等') }}
-        </p>
+        </!p-->
       </div>
     </div>
     <div :class="$style.resultArea">
