@@ -37,6 +37,42 @@
           :sorting="patientsTableSorting"
         />
       </v-col>
+      <v-col cols="12" md="6" class="DataCard">
+        <time-bar-chart
+          :loaded="inspections.loaded"
+          title="検査実施件数"
+          :title-id="'number-of-tested'"
+          :chart-id="'time-bar-chart-inspections'"
+          :chart-data="inspectionsGraph"
+          :date="inspections.last_update"
+          :unit="'件'"
+          :info="''"
+        />
+      </v-col>
+      <v-col cols="12" md="6" class="DataCard">
+        <time-bar-chart
+          :loaded="callcenter.loaded"
+          title="健康相談窓口相談件数"
+          :title-id="'number-of-callcenter'"
+          :chart-id="'time-bar-chart-callcenter'"
+          :chart-data="callcenterGraph"
+          :date="callcenter.last_update"
+          :unit="'件'"
+          :info="''"
+        />
+      </v-col>
+      <v-col cols="12" md="6" class="DataCard">
+        <time-bar-chart
+          :loaded="advicecenter.loaded"
+          title="帰国者・接触者相談センター相談件数"
+          :title-id="'number-of-advicecenter'"
+          :chart-id="'time-bar-chart-advicecenter'"
+          :chart-data="advicecenterGraph"
+          :date="advicecenter.last_update"
+          :unit="'件'"
+          :info="''"
+        />
+      </v-col>
     </v-row>
   </div>
 </template>
