@@ -137,7 +137,7 @@ class SheetApi {
   getPatientsSummary() {
     //cacheに存在すれば、cacheからloadする
     if (this.cache.patientsSummary) return this.loadCache(this.cache.patientsSummary);
-    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)    
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
