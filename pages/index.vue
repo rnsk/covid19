@@ -23,6 +23,7 @@
           :chart-data="patientsGraph"
           :date="patients_summary.last_update"
           :unit="$t('人')"
+          :url="'https://data.gifu-opendata.pref.gifu.lg.jp/dataset/c11223-001/resource/9c35ee55-a140-4cd8-a266-a74edf60aa80'"
         />
       </v-col>
       <v-col cols="12" md="12" class="DataCard">
@@ -35,6 +36,7 @@
           :date="patients.last_update"
           :info="sumInfoOfPatients"
           :sorting="patientsTableSorting"
+          :url="'https://data.gifu-opendata.pref.gifu.lg.jp/dataset/c11223-001/resource/9c35ee55-a140-4cd8-a266-a74edf60aa80'"
         />
       </v-col>
       <v-col cols="12" md="6" class="DataCard">
@@ -47,6 +49,7 @@
           :date="inspections.last_update"
           :unit="'件'"
           :info="''"
+          :url="'https://data.gifu-opendata.pref.gifu.lg.jp/dataset/c11223-001/resource/f2468ba2-efe8-483f-9b1b-ee67755dedb0'"
         />
       </v-col>
       <v-col cols="12" md="6" class="DataCard">
@@ -59,6 +62,7 @@
           :date="callcenter.last_update"
           :unit="'件'"
           :info="''"
+          :url="'https://data.gifu-opendata.pref.gifu.lg.jp/dataset/c11223-001/resource/aa3ebb23-5704-470f-a41e-d834d0a51fc0'"
         />
       </v-col>
       <v-col cols="12" md="6" class="DataCard">
@@ -71,6 +75,7 @@
           :date="advicecenter.last_update"
           :unit="'件'"
           :info="''"
+          :url="'https://data.gifu-opendata.pref.gifu.lg.jp/dataset/c11223-001/resource/b71cdec1-b763-4b67-9ff4-24deaea65a55'"
         />
       </v-col>
     </v-row>
