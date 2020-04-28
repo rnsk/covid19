@@ -12,9 +12,8 @@ class SheetApi {
   cache = {}
 
   getNewsData() {
-    //cacheに存在すれば、cacheからloadする
     if (this.cache.newsData) return this.loadCache(this.cache.newsData);
-    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/1/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/1/public/values?alt=json`)
       .then((res) => {
         let num = 2
         const items = []
@@ -33,48 +32,70 @@ class SheetApi {
       .catch(e => ({ error: e }));
   }
 
-  graphMainSummary() {
+  graphMainSummary(inspections_sum) {
     //cacheに存在すれば、cacheからloadする
     if (this.cache.graphMainSummary) return this.loadCache(this.cache.graphMainSummary);
-    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/2/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)
       .then((res) => {
-        const data = res.data.feed.entry[0]
+        const items = { '検査実施件数': inspections_sum, '陽性患者数': 0, '入院中入院調整中': 0, '軽症・中等症': 0, '重症': 0, '退院': 0, '死亡': 0 }
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          if (value.gsx$退院済フラグ.$t == 1) {
+            if (value.gsx$患者状態.$t == '死亡') {
+              items['死亡']++;
+            }
+            else {
+              items['退院']++;
+            }
+          }
+          else {
+            if (value.gsx$患者状態.$t == '重症') {
+              items['重症']++;
+            }
+            else {
+              items['軽症・中等症']++;
+            }
+          }
+        });
+        items['入院中入院調整中'] = items['軽症・中等症'] + items['重症'];
+        items['陽性患者数'] = items['入院中入院調整中'] + items['退院'] + items['死亡'];
+
         const main_summary = {
           data: {
             attr: '検査実施件数',
-            value: Number(data.gsx$検査実施件数.$t),
+            value: items['検査実施件数'],
             children: [
               {
                 attr: '陽性患者数',
-                value: Number(data.gsx$陽性患者数.$t),
+                value: items['陽性患者数'],
                 children: [
                   {
-                    attr: '入院中・入院調整中',
-                    value: Number(data.gsx$入院中入院調整中.$t),
+                    attr: '入院中入院調整中',
+                    value: items['入院中入院調整中'],
                     children: [
                       {
                         attr: '軽症・中等症',
-                        value: Number(data.gsx$軽症中等症.$t),
+                        value: items['軽症・中等症'],
                       },
                       {
                         attr: '重症',
-                        value: Number(data.gsx$重症.$t),
+                        value: items['重症'],
                       }
                     ]
                   },
                   {
                     attr: '退院',
-                    value: Number(data.gsx$退院.$t),
+                    value: items['退院'],
                   },
                   {
                     attr: '死亡',
-                    value: Number(data.gsx$死亡.$t),
+                    value: items['死亡'],
                   }
                 ]
               }
             ]
           },
-          last_update: data.gsx$lastupdate.$t,
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
         this.cache.graphMainSummary = main_summary;//cacheへ格納
         return main_summary;
@@ -85,26 +106,27 @@ class SheetApi {
   getPatients() {
     //cacheに存在すれば、cacheからloadする
     if (this.cache.patients) return this.loadCache(this.cache.patients);
-    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/3/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            リリース日: dayjs(value.gsx$リリース日.$t, 'YYYY/MM/DD').format() ?? '不明',
-            曜日: value.gsx$曜日.$t,
-            居住地: value.gsx$居住地.$t,
-            年代: value.gsx$年代.$t,
-            性別: value.gsx$性別.$t,
+            No: value.gsx$no.$t,
+            リリース日: dayjs(value.gsx$公表年月日.$t, 'YYYY-MM-DD').format() ?? '不明',
+            // 曜日: value.gsx$曜日.$t,
+            居住地: value.gsx$患者居住地.$t,
+            年代: value.gsx$患者年代.$t,
+            性別: value.gsx$患者性別.$t,
             備考: value.gsx$備考.$t,
-            退院: value.gsx$退院.$t,
+            退院: value.gsx$退院済フラグ.$t,
           }
           items.push(item)
         });
         const patients = {
           data: items,
-          last_update: values[values.length - 1].gsx$updated.$t,
-          date: dayjs(values[values.length - 1].gsx$updated.$t).format('YYYY/MM/DD')
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
+          date: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD')
         }
         this.cache.patients = patients;//cacheへ格納
         return patients;
@@ -115,44 +137,85 @@ class SheetApi {
   getPatientsSummary() {
     //cacheに存在すれば、cacheからloadする
     if (this.cache.patientsSummary) return this.loadCache(this.cache.patientsSummary);
-    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/4/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            日付: dayjs(value.gsx$日付.$t, 'YYYY/MM/DD').format() ?? '不明',
-            小計: Number(value.gsx$小計.$t),
+            日付: dayjs(value.gsx$公表年月日.$t, 'YYYY-MM-DD').format() ?? '不明'
           }
           items.push(item)
         });
-        const inspections_summary = {
-          data: items,
-          last_update: values[values.length - 1].gsx$updated.$t
+
+        // 日付ごとに集計
+        const group = items.reduce((result, current) => {
+          const element = result.find((p) => p.日付 === current.日付);
+          if (element) {
+            element.小計++;
+          } else {
+            result.push({
+              日付: current.日付,
+              小計: 1,
+            });
+          }
+          return result;
+        }, []);
+        const patients_summary = {
+          data: this.addPaddingDay2Summary(group),
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
-        this.cache.patientsSummary = inspections_summary;//cacheへ格納
-        return inspections_summary;
+        this.cache.patientsSummary = patients_summary;//cacheへ格納
+        return patients_summary;
       })
       .catch(e => ({ error: e }));
+  }
+
+  addPaddingDay2Summary(summary_data) {
+    var items = [];
+    var pos = 0;
+    var day_diff = dayjs(summary_data[summary_data.length - 1]['日付']).diff(summary_data[0]['日付'], 'days', false);
+
+    for (var i = 0; i <= day_diff; i++) {
+      var current_day = dayjs(summary_data[0]['日付'], 'YYYY-MM-DD').add(i, 'days');
+      const item_padding = {
+        日付: current_day,
+        小計: 0,
+      };
+
+      if (pos >= summary_data.length) {
+        items.push(item_padding)
+        continue;
+      }
+
+      if (dayjs(summary_data[pos]['日付']).isSame(current_day)) {
+        items.push(summary_data[pos]);
+        pos++;
+      }
+      else {
+        items.push(item_padding)
+      }
+    }
+    return items;
   }
 
   getInspectionsSummary() {
     //cacheに存在すれば、cacheからloadする
     if (this.cache.inspectionsSummary) return this.loadCache(this.cache.inspectionsSummary);
-    return axios.get(`${this.apiBase}/15CHGPTLs5aqHXq38S1RbrcTtaaOWDDosfLqvey7nh8k/5/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/3/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            日付: dayjs(value.gsx$日付.$t, 'YYYY/MM/DD').format() ?? '不明',
-            小計: Number(value.gsx$実施件数.$t),
+            日付: dayjs(value.gsx$実施年月日.$t, 'YYYY/MM/DD').format() ?? '不明',
+            小計: Number(value.gsx$検査実施件数.$t),
           }
           items.push(item)
         });
         const inspections_summary = {
           data: items,
-          last_update: values[values.length - 1].gsx$updated.$t
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
         }
         this.cache.inspectionsSummary = inspections_summary;//cacheへ格納
         return inspections_summary;
@@ -160,10 +223,59 @@ class SheetApi {
       .catch(e => ({ error: e }));
   }
 
+  getCallCenterSummary() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.callcenterSummary) return this.loadCache(this.cache.callcenterSummary);
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/4/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            日付: dayjs(value.gsx$受付年月日.$t, 'YYYY/MM/DD').format() ?? '不明',
+            小計: Number(value.gsx$相談件数.$t),
+          }
+          items.push(item)
+        });
+        const callcenter_summary = {
+          data: items,
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
+        }
+        this.cache.callcenterSummary = callcenter_summary;//cacheへ格納
+        return callcenter_summary;
+      })
+      .catch(e => ({ error: e }));
+  }
+
+  getAdviceCenterSummary() {
+    //cacheに存在すれば、cacheからloadする
+    if (this.cache.advicecenterSummary) return this.loadCache(this.cache.advicecenterSummary);
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/5/public/values?alt=json`)
+      .then((res) => {
+        const items = []
+        const values = Object.values(res.data.feed.entry)
+        values.forEach((value) => {
+          const item = {
+            日付: dayjs(value.gsx$受付年月日.$t, 'YYYY/MM/DD').format() ?? '不明',
+            小計: Number(value.gsx$帰国者接触者相談センター相談件数.$t),
+          }
+          items.push(item)
+        });
+        const advicecenter_summary = {
+          data: items,
+          last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
+        }
+        this.cache.advicecenterSummary = advicecenter_summary;//cacheへ格納
+        return advicecenter_summary;
+      })
+      .catch(e => ({ error: e }));
+  }
+
+
   getMunicipalityLink() {
     //cacheに存在すれば、cacheからloadする
     if (this.cache.municipalitylink) return this.loadCache(this.cache.municipalitylink);
-    return axios.get(`${this.apiBase}/1Dm9dsei-QXmilRN9V7IVmgnZuC8aRsFQE5RPR0-L7bI/1/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/7/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
@@ -193,7 +305,7 @@ class SheetApi {
   getConsultations() {
     //cacheに存在すれば、cacheからloadする
     if (this.cache.consultations) return this.loadCache(this.cache.consultations);
-    return axios.get(`${this.apiBase}/10b0NTVctq3jjSvaA6-Vc-dQJYt5FFEP292MLzkCdazs/1/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/8/public/values?alt=json`)
       .then((res) => {
         const items = []
         const values = Object.values(res.data.feed.entry)
