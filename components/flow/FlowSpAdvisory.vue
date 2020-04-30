@@ -15,6 +15,7 @@
           {{ $t('毎日（24時間）') }}
         </dt>
         <dd :class="$style.link">
+          <!--
           <a
             href="https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html"
             target="_blank"
@@ -25,6 +26,10 @@
               mdi-open-in-new
             </v-icon>
           </a>
+          -->
+          <router-link to="/consultations">
+            {{ $t('各保健所の電話番号は相談窓口一覧へ') }}
+          </router-link>
         </dd>
       </div>
       <div>

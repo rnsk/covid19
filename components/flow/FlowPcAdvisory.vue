@@ -31,6 +31,10 @@
               'mt-4'
             ]"
           >
+            <router-link to="/consultations">
+              {{ $t('各保健所の電話番号は相談窓口一覧へ') }}
+            </router-link>
+            <!--
             <a
               href="https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html"
               target="_blank"
@@ -41,7 +45,7 @@
                 mdi-open-in-new
               </v-icon>
             </a>
-            <!--<data-table
+            <data-table
               :title="'岐阜県の帰国者・接触者相談センター'"
               :title-id="'list-of-centers'"
               :url="
