@@ -174,7 +174,7 @@ class SheetApi {
   addPaddingDay2Summary(summary_data) {
     var items = [];
     var pos = 0;
-    var day_diff = dayjs(summary_data[summary_data.length - 1]['日付']).diff(summary_data[0]['日付'], 'days', false);
+    var day_diff = dayjs(dayjs()).diff(summary_data[0]['日付'], 'days', false);
 
     for (var i = 0; i <= day_diff; i++) {
       var current_day = dayjs(summary_data[0]['日付'], 'YYYY-MM-DD').add(i, 'days');
