@@ -48,7 +48,7 @@
           :chart-data="inspectionsGraph"
           :date="inspections.last_update"
           :unit="'件'"
-          :info="''"
+          :info="'陰性確認のための検査、医療機関が保険適用で行った検査を含みます。速報値として公開するものであり、後日、確定データとして修正される場合があります。'"
           :url="'https://data.gifu-opendata.pref.gifu.lg.jp/dataset/c11223-001/resource/f2468ba2-efe8-483f-9b1b-ee67755dedb0'"
         />
       </v-col>
