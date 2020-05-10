@@ -17,7 +17,7 @@
         :unit="displayInfo.unit"
       />
     </template>
-   <p class="Graph-Desc">{{info}}</p>
+   <p class="Graph-Desc">{{$t(info)}}</p>
   </data-view>
 </template>
 
