@@ -21,16 +21,7 @@
       </span>
     </div>
     <ul :class="[$style.rectContainer, $style.double]">
-      <li :class="$style.symptom">
-        <span>
-          <i18n path="{cold}のような症状">
-            <span :class="$style.ConditionsItemLarger" place="cold">
-              {{ $t('風邪') }}
-            </span>
-          </i18n>
-        </span>
-      </li>
-      <li :class="$style.symptom">
+      <!--li :class="$style.symptom">
         <i18n tag="span" path="発熱{temperature}" :class="$style.fzSmall">
           <i18n
             tag="span"
@@ -41,6 +32,15 @@
             <span :class="$style.temp" place="tempNum">{{ $t('37.5℃') }}</span>
           </i18n>
         </i18n>
+      </li-->
+      <li :class="$style.symptom">
+        <span>
+          <i18n path="{cold}のような症状">
+            <span :class="$style.ConditionsItemLarger" place="cold">
+              {{ $t('風邪') }}
+            </span>
+          </i18n>
+        </span>
       </li>
       <li :class="$style.symptom">
         {{ $t('強いだるさ') }}
@@ -51,15 +51,15 @@
     </ul>
 
     <p :class="$style.duration">
-      <i18n path="{duration}続いている">
-        <i18n
+      <i18n path="症状がある" :class="[$style.underline, $style.fzLarge]">
+        <!--i18n
           :class="[$style.underline, $style.fzLarge]"
           tag="span"
           place="duration"
           path="{day}日程度"
         >
           <strong :class="$style.fzNumeric" place="day">2</strong>
-        </i18n>
+        </i18n-->
       </i18n>
     </p>
 

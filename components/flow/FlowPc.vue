@@ -1,6 +1,13 @@
 <template>
   <div :class="$style.FlowCard">
     <h3>{{ $t('新型コロナウイルス感染症にかかる相談窓口について') }}</h3>
+    <small :class="$style.Note">
+      {{
+        $t(
+          '※この目安は、国民のみなさまが相談・受診する目安です。これまで通り、検査については医師が個別に判断します。'
+        )
+      }}
+    </small>
     <div :class="[$style.Outer, $style.OuterUpper]">
       <div :class="[$style.CardBlock, $style.Past]">
         <flow-pc-past />
@@ -45,13 +52,6 @@
         <flow-pc-hospitalized />
       </div>
     </div>
-    <!--p :class="$style.Note">
-      {{
-        $t(
-          '※保険適用となる検査は、当面の間、院内感染防止等の観点から、「帰国者・接触者外来」等の医療機関で実施'
-        )
-      }}
-    </!p-->
   </div>
 </template>
 
