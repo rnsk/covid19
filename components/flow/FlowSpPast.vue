@@ -92,12 +92,15 @@
     </p>
     <div :class="[$style.rectContainer, $style.req]">
       <p :class="$style.symptom">
-        {{ $t('呼吸器症状') }}
+        {{ $t('発熱') }}
       </p>
       <p :class="$style.op">
-        {{ $t('かつ') }}
+        {{ $t('または') }}
       </p>
       <p :class="$style.symptom">
+        {{ $t('呼吸器症状') }}
+      </p>
+      <!--p :class="$style.symptom">
         <i18n tag="span" path="発熱{temperature}" :class="$style.fzSmall">
           <i18n
             tag="span"
@@ -108,7 +111,7 @@
             <span :class="$style.temp" place="tempNum">{{ $t('37.5℃') }}</span>
           </i18n>
         </i18n>
-      </p>
+      </p-->
     </div>
     <a
       v-scroll-to="{

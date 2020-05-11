@@ -3,6 +3,13 @@
     <h3 :class="['mb-4', $style.FlowCardHeading]">
       {{ $t('新型コロナウイルス感染症にかかる相談窓口について') }}
     </h3>
+    <small :class="[$style.note, $style.fzSmall, $style.break]">
+      {{
+        $t(
+          '※この目安は、国民のみなさまが相談・受診する目安です。これまで通り、検査については医師が個別に判断します。'
+        )
+      }}
+    </small>
     <div :class="$style.FlowCard">
       <flow-sp-past />
     </div>

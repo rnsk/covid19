@@ -100,7 +100,7 @@
             aria-hidden="true"
           />
         </em>
-        <span :class="$style.FlowText">{{ $t('かつ') }}</span>
+        <!--span :class="$style.FlowText">{{ $t('かつ') }}</!--span>
         <em :class="$style.FlowSymptom">
           <i18n tag="span" :class="$style.FlowTextSm" path="発熱{temperature}">
             <i18n tag="span" path="{tempNum}以上" place="temperature">
@@ -114,7 +114,7 @@
             src="/flow/check_circle-24px.svg"
             aria-hidden="true"
           />
-        </em>
+        </!em-->
       </div>
     </div>
   </section>
