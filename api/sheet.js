@@ -37,7 +37,7 @@ class SheetApi {
     if (this.cache.graphMainSummary) return this.loadCache(this.cache.graphMainSummary);
     return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)
       .then((res) => {
-        const items = { '検査実施件数': inspections_sum, '陽性患者数': 0, '入院中入院調整中': 0, '軽症・中等症': 0, '重症': 0, '退院': 0, '死亡': 0 }
+        const items = { '検査実施件数': inspections_sum, '陽性患者数': 0, '入院中': 0, '軽症・中等症': 0, '重症': 0, '退院': 0, '死亡': 0 }
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           if (value.gsx$退院済フラグ.$t == 1) {
@@ -57,8 +57,8 @@ class SheetApi {
             }
           }
         });
-        items['入院中入院調整中'] = items['軽症・中等症'] + items['重症'];
-        items['陽性患者数'] = items['入院中入院調整中'] + items['退院'] + items['死亡'];
+        items['入院中'] = items['軽症・中等症'] + items['重症'];
+        items['陽性患者数'] = items['入院中'] + items['退院'] + items['死亡'];
 
         const main_summary = {
           data: {
@@ -70,8 +70,8 @@ class SheetApi {
                 value: items['陽性患者数'],
                 children: [
                   {
-                    attr: '入院中入院調整中',
-                    value: items['入院中入院調整中'],
+                    attr: '入院中',
+                    value: items['入院中'],
                     children: [
                       {
                         attr: '軽症・中等症',
