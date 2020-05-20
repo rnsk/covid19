@@ -296,7 +296,7 @@ export default {
       left: 0;
       display: block !important;
       width: 100%;
-      z-index: z-index-of(opened-side-navigation);
+      z-index: 1000;
       background-color: $white;
       height: 100%;
       overflow: auto;

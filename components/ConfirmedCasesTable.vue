@@ -28,9 +28,9 @@
         <li :class="[$style.box, $style.parent, $style.hospitalized]">
           <div :class="$style.pillar">
             <div :class="$style.content">
-              <span>{{ $t('入院中・入院調整中') }}</span>
+              <span>{{ $t('入院中*') }}</span>
               <span>
-                <strong>{{ 入院中入院調整中 }}</strong>
+                <strong>{{ 入院中 }}</strong>
                 <span :class="$style.unit">{{ $t('人') }}</span>
               </span>
             </div>
@@ -76,7 +76,7 @@
         <li :class="[$style.box, $style.recovered]">
           <div :class="$style.pillar">
             <div :class="$style.content">
-              <span>{{ $t('退院') }}</span>
+              <span>{{ $t('退院*') }}</span>
               <span>
                 <strong>{{ 退院 }}</strong>
                 <span :class="$style.unit">{{ $t('人') }}</span>
@@ -102,7 +102,7 @@ export default Vue.extend({
       type: Number,
       required: true
     },
-    入院中入院調整中: {
+    入院中: {
       type: Number,
       required: true
     },
