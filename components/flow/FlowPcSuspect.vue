@@ -46,21 +46,28 @@
 
     <div :class="[$style.SubtleBox, $style.Box2, $style.Center]">
       <div :class="$style.LargerText">
-        {{ $t('県健康福祉政策課') }}
+        {{ $t('健康相談窓口') }}
       </div>
       <div :class="$style.SmallerText">
-        {{ $t('8:30〜17:15（平日のみ）') }}
+        {{ $t('県庁保健医療課') }}:{{ $t('毎日') }} {{ $t('9:00〜21:00') }}
       </div>
-
       <div :class="$style.Tel">
-        <a :class="$style.TelLink" href="tel:0582721111">
+        <a :class="$style.TelLink" href="tel:0582728860">
           <img
             :class="$style.TelLinkIcon"
             src="/flow/phone-24px.svg"
             aria-hidden="true"
           />
-          058-272-1111<br />(内線2515、2516)
+          058-272-8860<br />
         </a>
+      </div>
+      <div :class="$style.SmallerText">
+        {{ $t('各保健所') }}:{{ $t('平日') }} {{ $t('9:00〜17:00') }}
+      </div>
+      <div :class="$style.HokenLink">
+        <router-link to="/consultations">
+          {{ $t('各保健所の電話番号は相談窓口一覧へ') }}
+        </router-link>
       </div>
     </div>
   </div>
@@ -97,6 +104,19 @@
     height: 26px;
   }
 }
+.HokenLink {
+    line-height: 22px;
+    text-align: center;
+    font-weight: bold;
+    a {
+      color: rgba(0, 0, 0, 0.87);
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+}
+
 .CheckBox {
   position: relative;
   border: 2px solid $blue-1;

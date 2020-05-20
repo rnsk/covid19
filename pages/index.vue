@@ -23,6 +23,7 @@
           :chart-data="patientsGraph"
           :date="patients_summary.last_update"
           :unit="$t('人')"
+          :url="'https://data.gifu-opendata.pref.gifu.lg.jp/dataset/c11223-001/resource/9c35ee55-a140-4cd8-a266-a74edf60aa80'"
         />
       </v-col>
       <v-col cols="12" md="12" class="DataCard">
@@ -34,6 +35,47 @@
           :chart-option="{}"
           :date="patients.last_update"
           :info="sumInfoOfPatients"
+          :sorting="patientsTableSorting"
+          :url="'https://data.gifu-opendata.pref.gifu.lg.jp/dataset/c11223-001/resource/9c35ee55-a140-4cd8-a266-a74edf60aa80'"
+        />
+      </v-col>
+      <v-col cols="12" md="6" class="DataCard">
+        <time-bar-chart
+          :loaded="inspections.loaded"
+          title="検査実施件数"
+          :title-id="'number-of-tested'"
+          :chart-id="'time-bar-chart-inspections'"
+          :chart-data="inspectionsGraph"
+          :date="inspections.last_update"
+          :unit="'件'"
+          :info="'陰性確認のための検査、医療機関が保険適用で行った検査を含みます。速報値として公開するものであり、後日、確定データとして修正される場合があります。'"
+          :url="'https://data.gifu-opendata.pref.gifu.lg.jp/dataset/c11223-001/resource/f2468ba2-efe8-483f-9b1b-ee67755dedb0'"
+        />
+      </v-col>
+      <v-col cols="12" md="6" class="DataCard">
+        <time-bar-chart
+          :loaded="callcenter.loaded"
+          title="健康相談窓口相談件数"
+          :title-id="'number-of-callcenter'"
+          :chart-id="'time-bar-chart-callcenter'"
+          :chart-data="callcenterGraph"
+          :date="callcenter.last_update"
+          :unit="'件'"
+          :info="''"
+          :url="'https://data.gifu-opendata.pref.gifu.lg.jp/dataset/c11223-001/resource/aa3ebb23-5704-470f-a41e-d834d0a51fc0'"
+        />
+      </v-col>
+      <v-col cols="12" md="6" class="DataCard">
+        <time-bar-chart
+          :loaded="advicecenter.loaded"
+          title="帰国者・接触者相談センター相談件数"
+          :title-id="'number-of-advicecenter'"
+          :chart-id="'time-bar-chart-advicecenter'"
+          :chart-data="advicecenterGraph"
+          :date="advicecenter.last_update"
+          :unit="'件'"
+          :info="''"
+          :url="'https://data.gifu-opendata.pref.gifu.lg.jp/dataset/c11223-001/resource/b71cdec1-b763-4b67-9ff4-24deaea65a55'"
         />
       </v-col>
     </v-row>
@@ -74,15 +116,28 @@ export default {
       this.newsItems = await sheetApi.getNewsData()
     },
     async getData() {
-      await sheetApi.graphMainSummary().then(response => {
-        this.getConfirmedData(response)
-        this.headerItem.date = response.last_update
+      await sheetApi.getInspectionsSummary().then(response => {
+        this.getInspectionsData(response)
       })
+      await sheetApi
+        .graphMainSummary(
+          this.inspectionsGraph[this.inspectionsGraph.length - 1].cumulative
+        )
+        .then(response => {
+          this.getConfirmedData(response)
+          this.headerItem.date = response.last_update
+        })
       await sheetApi.getPatientsSummary().then(response => {
         this.getPatientsData(response)
       })
       await sheetApi.getPatients().then(response => {
         this.getPatientsTableData(response)
+      })
+      await sheetApi.getCallCenterSummary().then(response => {
+        this.getCallCenterData(response)
+      })
+      await sheetApi.getAdviceCenterSummary().then(response => {
+        this.getAdviceCenterData(response)
       })
     },
     getPatientsTableData(patients) {
@@ -114,6 +169,21 @@ export default {
       this.confirmedCases = formatConfirmedCases(main_summary.data)
       this.confirmed.last_update = main_summary.last_update
       this.confirmed.loaded = true
+    },
+    getInspectionsData(inspections_summary) {
+      this.inspectionsGraph = formatGraph(inspections_summary.data)
+      this.inspections.last_update = inspections_summary.last_update
+      this.inspections.loaded = true
+    },
+    getCallCenterData(callcenter_summary) {
+      this.callcenterGraph = formatGraph(callcenter_summary.data)
+      this.callcenter.last_update = callcenter_summary.last_update
+      this.callcenter.loaded = true
+    },
+    getAdviceCenterData(advicecenter_summary) {
+      this.advicecenterGraph = formatGraph(advicecenter_summary.data)
+      this.advicecenter.last_update = advicecenter_summary.last_update
+      this.advicecenter.loaded = true
     }
   },
   data() {
@@ -130,6 +200,18 @@ export default {
         loaded: false,
         last_update: ''
       },
+      inspections: {
+        loaded: false,
+        last_update: ''
+      },
+      callcenter: {
+        loaded: false,
+        last_update: ''
+      },
+      advicecenter: {
+        loaded: false,
+        last_update: ''
+      },
       /**
        * 全体の最終更新日
        */
@@ -140,11 +222,18 @@ export default {
       patientsTable: {},
       patientsGraph: [],
       confirmedCases: {},
+      inspectionsGraph: [],
+      callcenterGraph: [],
+      advicecenterGraph: [],
       sumInfoOfPatients: {},
       headerItem: {
         icon: 'mdi-chart-timeline-variant',
         title: '県内の最新感染動向',
         date: ''
+      },
+      patientsTableSorting: {
+        sortBy: 'No',
+        sortDesc: true
       },
       newsItems: []
     }

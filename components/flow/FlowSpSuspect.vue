@@ -21,16 +21,25 @@
 
     <div :class="$style.callcenter">
       <p :class="$style.fzLarge">
-        {{ $t('県健康福祉政策課') }}
-      </p>
+         {{ $t('健康相談窓口') }}
+     </p>
       <p :class="$style.open">
-        {{ $t('8:30〜17:15（平日のみ）') }}
+        {{ $t('県庁保健医療課') }}:{{ $t('毎日') }} {{ $t('9:00〜21:00') }}
       </p>
       <p :class="[$style.phone, $style.fzNumeric]">
         <span :class="$style.icon">
           <PhoneIcon alt="Phone" />
         </span>
-        <a href="tel:0582721111">058-272-1111<br />(内線2515、2516)</a>
+        <a href="tel:0582728860">058-272-8860<br /></a>
+      </p>
+      <br/>
+      <p :class="$style.open">
+        {{ $t('各保健所') }}:{{ $t('平日') }} {{ $t('9:00〜17:00') }}
+      </p>
+      <p :class="$style.HokenLink">
+        <router-link to="/consultations">
+          {{ $t('各保健所の電話番号は相談窓口一覧へ') }}
+        </router-link>
       </p>
     </div>
 
@@ -82,6 +91,19 @@ export default {
   .open {
     margin-top: px2vw(10);
   }
+}
+.HokenLink {
+    margin-top: px2vw(10);
+    line-height: 22px;
+    text-align: center;
+    font-weight: bold;
+    a {
+      color: rgba(0, 0, 0, 0.87);
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
 }
 
 @include largerThan($small) {

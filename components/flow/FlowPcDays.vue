@@ -13,6 +13,12 @@
       </div>
       <div>
         <p>
+          <i18n path="{cold}のような症状が">
+            <span :class="$style.ConditionsItemLarger" place="cold">
+              {{ $t('風邪') }}
+            </span>
+          </i18n>
+          <br />
           <i18n path="{duration}続いている">
             <i18n
               tag="span"
@@ -23,6 +29,12 @@
               <span :class="$style.FlowRowEmphasisDay" place="day">4</span>
             </i18n>
           </i18n>
+          <br />
+          <i18n path="または" />
+          <br />
+          <i18n path="強いだるさ・息苦しさの" />
+          <br />
+          <i18n path="症状がある" :class="$style.FlowRowEmphasis" />
         </p>
       </div>
     </div>
@@ -45,7 +57,7 @@
           aria-hidden="true"
         />
       </div>
-      <div :class="$style.FlowRowCondition">
+      <!--div :class="$style.FlowRowCondition">
         <p>
           <i18n
             tag="span"
@@ -64,7 +76,7 @@
           src="/flow/check_circle-24px.svg"
           aria-hidden="true"
         />
-      </div>
+      </div-->
       <div :class="$style.FlowRowCondition">
         <p>{{ $t('強いだるさ') }}</p>
         <img
@@ -113,15 +125,15 @@
       </div>
       <div>
         <p>
-          <i18n path="{duration}続いている">
-            <i18n
+          <i18n path="症状がある" :class="$style.FlowRowEmphasis">
+            <!--i18n
               tag="span"
               place="duration"
               path="{day}日程度"
               :class="$style.FlowRowEmphasis"
             >
               <span :class="$style.FlowRowEmphasisDay" place="day">2</span>
-            </i18n>
+            </i18n-->
           </i18n>
         </p>
       </div>

@@ -10,13 +10,11 @@
       :items="chartData.datasets"
       :mobile-breakpoint="0"
       class="cardTable"
+      :sort-by="sorting.sortBy"
+      :sort-desc="sorting.sortDesc"
     />
     <template v-if="loaded" v-slot:infoPanel>
-      <data-view-basic-info-panel
-        :l-text="info.lText"
-        :s-text="info.sText"
-        :unit="info.unit"
-      />
+      <data-view-basic-info-panel :l-text="info.lText" :s-text="info.sText" :unit="info.unit" />
     </template>
   </data-view>
 </template>
@@ -93,6 +91,10 @@ export default {
       type: Boolean,
       required: true,
       default: false
+    },
+    sorting: {
+      sortBy: '',
+      sortDesc: true
     }
   }
 }
