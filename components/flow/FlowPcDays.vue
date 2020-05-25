@@ -13,87 +13,18 @@
       </div>
       <div>
         <p>
-          <i18n path="{cold}のような症状が">
-            <span :class="$style.ConditionsItemLarger" place="cold">
-              {{ $t('風邪') }}
-            </span>
-          </i18n>
+          <i18n path="息苦しさ・強いだるさ・高熱等の" />
           <br />
-          <i18n path="{duration}続いている">
-            <i18n
-              tag="span"
-              place="duration"
-              path="{day}日以上"
-              :class="$style.FlowRowEmphasis"
-            >
-              <span :class="$style.FlowRowEmphasisDay" place="day">4</span>
-            </i18n>
-          </i18n>
-          <br />
-          <i18n path="または" />
-          <br />
-          <i18n path="強いだるさ・息苦しさの" />
-          <br />
-          <i18n path="症状がある" :class="$style.FlowRowEmphasis" />
+          <i18n path="強い症状のいずれかがある" :class="$style.FlowRowEmphasis" />
+        </p>
+      </div>
+      <div :class="$style.FlowRowNote">
+        <p>
+          <i18n path="※発熱や咳など比較的軽い風邪の症状が続く場合も、４日以上続く場合は必ずご相談ください。症状には個人差がありますので、強い症状と思う場合にはすぐに相談してください。解熱剤などを飲み続けなければならない方も同様です。" />
         </p>
       </div>
     </div>
-    <div :class="[$style.FlowRow, $style.FlowRowRowCheck]">
-      <div :class="$style.FlowRowCondition">
-        <p>
-          <i18n
-            tag="span"
-            path="{cold}のような症状"
-            :class="$style.FlowRowConditionSmall"
-          >
-            <span :class="$style.FlowRowConditionLarge" place="cold">
-              {{ $t('風邪') }}
-            </span>
-          </i18n>
-        </p>
-        <img
-          :class="$style.FlowRowConditionIcon"
-          src="/flow/check_circle-24px.svg"
-          aria-hidden="true"
-        />
-      </div>
-      <!--div :class="$style.FlowRowCondition">
-        <p>
-          <i18n
-            tag="span"
-            :class="$style.FlowRowConditionSmall"
-            path="発熱{temperature}"
-          >
-            <i18n tag="span" place="temperature" path="{tempNum}以上">
-              <span :class="$style.FlowRowConditionLarge" place="tempNum">
-                {{ $t('37.5℃') }}
-              </span>
-            </i18n>
-          </i18n>
-        </p>
-        <img
-          :class="$style.FlowRowConditionIcon"
-          src="/flow/check_circle-24px.svg"
-          aria-hidden="true"
-        />
-      </div-->
-      <div :class="$style.FlowRowCondition">
-        <p>{{ $t('強いだるさ') }}</p>
-        <img
-          :class="$style.FlowRowConditionIcon"
-          src="/flow/check_circle-24px.svg"
-          aria-hidden="true"
-        />
-      </div>
-      <div :class="$style.FlowRowCondition">
-        <p>{{ $t('息苦しさ') }}</p>
-        <img
-          :class="$style.FlowRowConditionIcon"
-          src="/flow/check_circle-24px.svg"
-          aria-hidden="true"
-        />
-      </div>
-    </div>
+
     <div :class="$style.FlowRow">
       <div :class="$style.FlowRowRowThree">
         <ul :class="$style.FlowRowRowThreeCareTargetList">
@@ -125,16 +56,14 @@
       </div>
       <div>
         <p>
-          <i18n path="症状がある" :class="$style.FlowRowEmphasis">
-            <!--i18n
-              tag="span"
-              place="duration"
-              path="{day}日程度"
-              :class="$style.FlowRowEmphasis"
-            >
-              <span :class="$style.FlowRowEmphasisDay" place="day">2</span>
-            </i18n-->
-          </i18n>
+          <i18n path="発熱や咳などの比較的軽い風邪の" />
+          <br />
+          <i18n path="症状がある" :class="$style.FlowRowEmphasis" />
+        </p>
+        <p>
+          <i18n path="息苦しさ・強いだるさ・高熱等の" />
+          <br />
+          <i18n path="強い症状のいずれかがある" :class="$style.FlowRowEmphasis" />
         </p>
       </div>
     </div>
@@ -191,6 +120,10 @@
           }
         }
       }
+    }
+    &Note {
+      font-size: 12px;
+      margin: 0 20px;
     }
     &Condition {
       flex-grow: 1;
