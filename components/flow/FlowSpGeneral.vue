@@ -6,59 +6,16 @@
       </span>
       <span :class="$style.fzMedium">{{ $t('一般の方') }}</span>
     </p>
-    <ul :class="[$style.rectContainer, $style.double]">
-      <li :class="$style.symptom">
-        <span>
-          <i18n path="{cold}のような症状">
-            <span :class="$style.ConditionsItemLarger" place="cold">{{
-              $t('風邪')
-            }}</span>
-          </i18n>
-        </span>
-      </li>
-      <!--li :class="$style.symptom">
-        <i18n tag="span" path="発熱{temperature}" :class="$style.fzSmall">
-          <i18n
-            tag="span"
-            path="{tempNum}以上"
-            place="temperature"
-            :class="[$style.break, $style.fzRegular]"
-          >
-            <span :class="$style.temp" place="tempNum">{{ $t('37.5℃') }}</span>
-          </i18n>
-        </i18n>
-      </li-->
-    </ul>
-    <p :class="$style.duration">
-      <i18n path="{duration}続いている">
-        <i18n
-          :class="[$style.underline, $style.fzLarge]"
-          tag="span"
-          place="duration"
-          path="{day}日以上"
-        >
-          <strong :class="$style.fzNumeric" place="day">4</strong>
-        </i18n>
-      </i18n>
-    </p>
-    <a
-      v-scroll-to="{
-        el: '#consult',
-        onDone: onDoneScroll
-      }"
-      href="#consult"
-      :class="[$style.button, $style.clickable]"
-    >
-      <span :class="$style.text">{{ $t('新型コロナ受診相談窓口へ') }}</span>
-      <ArrowForwardIcon :class="$style.icon" />
-    </a>
 
     <ul :class="[$style.rectContainer, $style.double]">
+      <li :class="$style.symptom">
+        {{ $t('息苦しさ') }}
+      </li>
       <li :class="$style.symptom">
         {{ $t('強いだるさ') }}
       </li>
       <li :class="$style.symptom">
-        {{ $t('息苦しさ') }}
+        {{ $t('高熱') }}
       </li>
     </ul>
     <p :class="$style.duration">
@@ -75,6 +32,9 @@
       <span :class="$style.text">{{ $t('新型コロナ受診相談窓口へ') }}</span>
       <ArrowForwardIcon :class="$style.icon" />
     </a>
+    <p :class="$style.Note">
+      <i18n path="※発熱や咳など比較的軽い風邪の症状が続く場合も、４日以上続く場合は必ずご相談ください。症状には個人差がありますので、強い症状と思う場合にはすぐに相談してください。解熱剤などを飲み続けなければならない方も同様です。"/>
+    </p>
   </div>
 </template>
 
