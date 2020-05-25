@@ -147,7 +147,7 @@ export default {
         },
         {
           title: this.$t('Cancelled public events'),
-          link: 'https://www.pref.gifu.lg.jp/shingata_corona_enki.html'
+          link: 'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona_event_shisetsu.html'
         },
         {
           title: this.$t('Government official website'),

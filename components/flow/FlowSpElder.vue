@@ -43,10 +43,13 @@
         </span>
       </li>
       <li :class="$style.symptom">
+        {{ $t('息苦しさ') }}
+      </li>
+      <li :class="$style.symptom">
         {{ $t('強いだるさ') }}
       </li>
       <li :class="$style.symptom">
-        {{ $t('息苦しさ') }}
+        {{ $t('高熱') }}
       </li>
     </ul>
 
