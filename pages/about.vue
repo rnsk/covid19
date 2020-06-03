@@ -97,6 +97,15 @@
         >{{ $t('GitHub リポジトリ')}}</a
       >{{ $t('をご確認ください。')}}
     </TextCard>
+    <TextCard title="お問い合わせについて">
+      {{ $t('当サイトへの改善のご要望・お問い合わせは、こちらのフォームにお願いします。')}}<br/>
+      <a
+        href="https://forms.gle/VBeVXFY8EQD6uJ6e7"
+        target="_blank"
+        rel="noopener"
+        >{{ $t('お問い合わせフォーム')}}</a
+      >
+    </TextCard>
   </div>
 </template>
 

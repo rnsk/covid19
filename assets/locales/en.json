@@ -142,6 +142,7 @@
   "健康相談窓口相談件数": "Health Consultation Call Center",
   "帰国者・接触者相談センター相談件数": "Number of inquiries to Returnee and Contact Center in Gifu",
   "※この目安は、国民のみなさまが相談・受診する目安です。これまで通り、検査については医師が個別に判断します。": "This guideline is for citizens to consult and receive medical examination. As always, the doctor will make the individual judgment regarding the test.",
+  "※５月８日現在の情報です。": "Information as of May 8.",
   "{advisory}による相談結果": "Following consultation through the",
   "{closeContact}をした方": "Have been {closeContact}",
   "{cold}のような症状": "Common {cold} symptoms",
@@ -364,5 +365,8 @@
   "をご覧ください。": "please look at.",
   "本サイトのソースコードはMITライセンスで公開されており、誰でも自由に利用することができます。": "The source code of this site is released under the MIT license, and anyone can use it freely.",
   "詳しくは、": "For more information,",
-  "をご確認ください。": "Please confirm."
+  "をご確認ください。": "Please confirm.",
+  "お問い合わせについて": "About contact Us",
+  "当サイトへの改善のご要望・お問い合わせは、こちらのフォームにお願いします。": "If you have any requests or inquiries for improvements to this site, please use this form.",
+  "お問い合わせフォーム": "Contact Form"
 }
