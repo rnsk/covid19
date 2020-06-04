@@ -2,11 +2,8 @@
   <div :class="$style.FlowCard">
     <h3>{{ $t('新型コロナウイルス感染症にかかる相談窓口について') }}</h3>
     <small :class="$style.Note">
-      {{
-        $t(
-          '※この目安は、国民のみなさまが相談・受診する目安です。これまで通り、検査については医師が個別に判断します。'
-        )
-      }}
+      {{$t('※この目安は、国民のみなさまが相談・受診する目安です。これまで通り、検査については医師が個別に判断します。')}}<br/>
+      {{$t('※５月８日現在の情報です。')}}
     </small>
     <div :class="[$style.Outer, $style.OuterUpper]">
       <div :class="[$style.CardBlock, $style.Past]">
