@@ -10,7 +10,7 @@
           :title-id="'details-of-confirmed-cases'"
           :date="confirmed.last_update"
         >
-          <pulse-loader v-if="!confirmed.loaded" :loading="!confirmed.loaded" color="#808080" />
+          <pulse-loader v-if="!confirmed.loaded" :loading="!confirmed.loaded" color="#70C7EA" />
           <confirmed-cases-table v-else v-bind="confirmedCases" />
         </svg-card>
       </v-col>

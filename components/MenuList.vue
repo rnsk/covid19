@@ -140,7 +140,7 @@ export default class MenuList extends Vue {
     &:focus,
     &:visited,
     &:active {
-      color: $blue-1;
+      color: $blue-2;
     }
   }
 }
@@ -154,7 +154,7 @@ export default class MenuList extends Vue {
   color: $gray-2;
 
   .nuxt-link-exact-active & {
-    color: $blue-1;
+    color: $blue-2;
   }
 }
 
@@ -164,7 +164,7 @@ export default class MenuList extends Vue {
   fill: $gray-2;
 
   .nuxt-link-exact-active & {
-    fill: $blue-1;
+    fill: $blue-2;
   }
 }
 

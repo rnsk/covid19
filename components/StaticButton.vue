@@ -50,7 +50,7 @@ export default class StaticButton extends Vue {
     text-decoration: none;
   }
   &:hover {
-    background-color: $blue-2;
+    background-color: $blue-3;
   }
   &-icon:before {
     color: $white;

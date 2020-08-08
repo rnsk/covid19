@@ -3,7 +3,7 @@
     <template v-slot:button>
       <span />
     </template>
-    <pulse-loader v-if="!loaded" :loading="!loaded" color="#808080" />
+    <pulse-loader v-if="!loaded" :loading="!loaded" color="#70C7EA" />
     <v-data-table
       v-else
       :headers="chartData.headers"
