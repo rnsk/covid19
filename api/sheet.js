@@ -184,8 +184,7 @@ class SheetApi {
       };
 
       if (pos >= summary_data.length) {
-        items.push(item_padding)
-        continue;
+        break;
       }
 
       if (dayjs(summary_data[pos]['日付']).isSame(current_day)) {

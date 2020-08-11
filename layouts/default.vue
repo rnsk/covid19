@@ -2,7 +2,7 @@
   <v-app class="app">
     <div v-if="loading" class="loader">
       <img src="/logo.svg" alt="岐阜県" />
-      <scale-loader color="#69b6d5" />
+      <scale-loader color="#70C7EA" />
     </div>
     <div v-else class="appContainer">
       <div class="naviContainer">
@@ -118,5 +118,9 @@ export default {
     display: block;
     margin: 0 auto 20px;
   }
+}
+.v-application a
+{
+  color: $blue-2;
 }
 </style>

@@ -3,7 +3,7 @@
     <template v-slot:button>
       <data-selector v-model="dataKind" />
     </template>
-    <pulse-loader v-if="!loaded" :loading="!loaded" color="#808080" />
+    <pulse-loader v-if="!loaded" :loading="!loaded" color="#70C7EA" />
     <bar
       v-else
       :chart-data="displayData"
@@ -122,7 +122,7 @@ export default {
               data: this.chartData.map(d => {
                 return d.transition
               }),
-              backgroundColor: '#74d8f1',
+              backgroundColor: '#70C7EA',
               borderWidth: 0
             }
           ]
