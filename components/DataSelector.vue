@@ -25,15 +25,17 @@
     border-radius: 4px !important;
     height: 24px !important;
     font-size: 12px !important;
-    color: $gray-1 !important;
-    background-color: $white !important;
+    font-weight: bold !important; 
+    color: $blue-2 !important;
+    background-color: $gray-5 !important;
     &::before {
       background-color: inherit;
     }
   }
 
   & .v-btn--active {
-    background-color: $gray-2 !important;
+    font-weight: bold !important; 
+    background-color: $blue-2 !important;
     color: $white !important;
   }
 }
