@@ -35,30 +35,18 @@ class SheetApi {
   graphMainSummary(inspections_sum) {
     //cacheに存在すれば、cacheからloadする
     if (this.cache.graphMainSummary) return this.loadCache(this.cache.graphMainSummary);
-    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)
+    return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/9/public/values?alt=json`)
       .then((res) => {
         const items = { '検査実施件数': inspections_sum, '陽性患者数': 0, '入院中': 0, '軽症・中等症': 0, '重症': 0, '退院': 0, '死亡': 0 }
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
-          if (value.gsx$退院済フラグ.$t == 1) {
-            if (value.gsx$患者状態.$t == '死亡') {
-              items['死亡']++;
-            }
-            else {
-              items['退院']++;
-            }
-          }
-          else {
-            if (value.gsx$患者状態.$t == '重症') {
-              items['重症']++;
-            }
-            else {
-              items['軽症・中等症']++;
-            }
-          }
+          items['陽性患者数'] = Number(value.gsx$陽性患者数.$t)
+          items['入院中'] = Number(value.gsx$入院中.$t)
+          items['軽症・中等症'] = Number(value.gsx$軽症中等症.$t)
+          items['重症'] = Number(value.gsx$重症.$t)
+          items['退院'] = Number(value.gsx$退院.$t)
+          items['死亡'] = Number(value.gsx$死亡.$t)
         });
-        items['入院中'] = items['軽症・中等症'] + items['重症'];
-        items['陽性患者数'] = items['入院中'] + items['退院'] + items['死亡'];
 
         const main_summary = {
           data: {
@@ -102,6 +90,77 @@ class SheetApi {
       })
       .catch(e => ({ error: e }));
   }
+
+  // graphMainSummary(inspections_sum) {
+  //   //cacheに存在すれば、cacheからloadする
+  //   if (this.cache.graphMainSummary) return this.loadCache(this.cache.graphMainSummary);
+  //   return axios.get(`${this.apiBase}/1iQaK7yERA2tIfcz2Tl1OHibjoq4ZRZXqK-EYx7pj-e0/2/public/values?alt=json`)
+  //     .then((res) => {
+  //       const items = { '検査実施件数': inspections_sum, '陽性患者数': 0, '入院中': 0, '軽症・中等症': 0, '重症': 0, '退院': 0, '死亡': 0 }
+  //       const values = Object.values(res.data.feed.entry)
+  //       values.forEach((value) => {
+  //         if (value.gsx$退院済フラグ.$t == 1) {
+  //           if (value.gsx$患者状態.$t == '死亡') {
+  //             items['死亡']++;
+  //           }
+  //           else {
+  //             items['退院']++;
+  //           }
+  //         }
+  //         else {
+  //           if (value.gsx$患者状態.$t == '重症') {
+  //             items['重症']++;
+  //           }
+  //           else {
+  //             items['軽症・中等症']++;
+  //           }
+  //         }
+  //       });
+  //       items['入院中'] = items['軽症・中等症'] + items['重症'];
+  //       items['陽性患者数'] = items['入院中'] + items['退院'] + items['死亡'];
+
+  //       const main_summary = {
+  //         data: {
+  //           attr: '検査実施件数',
+  //           value: items['検査実施件数'],
+  //           children: [
+  //             {
+  //               attr: '陽性患者数',
+  //               value: items['陽性患者数'],
+  //               children: [
+  //                 {
+  //                   attr: '入院中',
+  //                   value: items['入院中'],
+  //                   children: [
+  //                     {
+  //                       attr: '軽症・中等症',
+  //                       value: items['軽症・中等症'],
+  //                     },
+  //                     {
+  //                       attr: '重症',
+  //                       value: items['重症'],
+  //                     }
+  //                   ]
+  //                 },
+  //                 {
+  //                   attr: '退院',
+  //                   value: items['退院'],
+  //                 },
+  //                 {
+  //                   attr: '死亡',
+  //                   value: items['死亡'],
+  //                 }
+  //               ]
+  //             }
+  //           ]
+  //         },
+  //         last_update: dayjs(values[values.length - 1].updated.$t).format('YYYY/MM/DD HH:mm'),
+  //       }
+  //       this.cache.graphMainSummary = main_summary;//cacheへ格納
+  //       return main_summary;
+  //     })
+  //     .catch(e => ({ error: e }));
+  // }
 
   getPatients() {
     //cacheに存在すれば、cacheからloadする
