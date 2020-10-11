@@ -29,7 +29,7 @@
               :class="$style.anchorLink"
               @click.prevent="onClickAnchor"
             >
-              <span>{{ $t('かかりつけ医等の医療機関では受診できない場合') }}</span>
+              <span>{{ $t('かかりつけ医等の医療機関では対応できない場合') }}</span>
               <fig-cond-sy :class="$style.fig" aria-hidden="true" />
             </a>
           </li>
@@ -49,6 +49,7 @@
         <h4 :class="$style.sxnHeading">
           {{ $t('かかりつけ医等の地域で身近な医療機関がある方') }}
         </h4>
+        <!--
         <ul :class="$style.boxes">
           <li :class="[$style.box, $style.border]">
             <i18n
@@ -85,6 +86,7 @@
             }}</span>
           </li>
         </ul>
+        -->
         <p :class="[$style.box, $style.bgYellow]">
           <span :class="$style.large">{{
             $t('日ごろ受診されている医療機関に電話でご相談ください。')
@@ -98,8 +100,9 @@
       </div>
       <div id="sy" :class="$style.section">
         <h4 :class="$style.sxnHeading">
-          {{ $t('かかりつけ医等の医療機関では受診できない場合')}} {{ $t('どこに相談したら良いか分からない方') }}
+          {{ $t('かかりつけ医等の医療機関では対応できない場合')}} {{ $t('どこに相談したら良いか分からない方') }}
         </h4>
+        <!--
         <ul :class="$style.boxes">
           <li :class="[$style.box, $style.border]">
             <i18n
@@ -136,6 +139,7 @@
             }}</span>
           </li>
         </ul>
+        -->
         <div :class="[$style.box, $style.bgGray]">
           <h5 :class="$style.boxHeading">
             {{ $t('「受診・相談センター」に相談してください。受診可能な医療機関をご案内します。') }}
