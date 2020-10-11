@@ -111,7 +111,7 @@ export default {
         {
           icon: 'CovidIcon',
           title: this.$t('If you have any symptoms'),
-          link: this.localePath('/flow')
+          link: this.localePath('/flow2')
         },
         {
           icon: 'mdi-city',
