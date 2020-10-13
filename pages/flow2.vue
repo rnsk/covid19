@@ -232,7 +232,7 @@
     </div>
     <div :class="$style.detail">
       <app-link
-        to="https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html"
+        to="https://www.pref.gifu.lg.jp/site/covid19/25920.html"
         :icon-size="20"
         :icon-class="$style.icon"
         :class="$style.detailButton"
