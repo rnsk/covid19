@@ -68,7 +68,7 @@
       <v-col cols="12" md="6" class="DataCard">
         <time-bar-chart
           :loaded="advicecenter.loaded"
-          title="帰国者・接触者相談センター相談件数"
+          title="受診・相談センター相談件数"
           :title-id="'number-of-advicecenter'"
           :chart-id="'time-bar-chart-advicecenter'"
           :chart-data="advicecenterGraph"
