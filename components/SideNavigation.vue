@@ -147,7 +147,7 @@ export default {
         },
         {
           title: this.$t('Cancelled public events'),
-          link: 'https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona_event_shisetsu.html'
+          link: 'https://www.pref.gifu.lg.jp/site/covid19/26717.html'
         },
         {
           title: this.$t('Government official website'),
