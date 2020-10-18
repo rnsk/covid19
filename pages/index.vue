@@ -2,7 +2,7 @@
   <div class="MainPage">
     <page-header :icon="headerItem.icon" :title="headerItem.title" :date="headerItem.date" />
     <whats-new :items="newsItems" />
-    <static-button :url="'/flow'" :text="'相談の手順を確認する'" />
+    <static-button :url="'/flow2'" :text="'相談の手順を確認する'" />
     <v-row class="DataBlock">
       <v-col cols="12" md="6" class="DataCard">
         <svg-card
