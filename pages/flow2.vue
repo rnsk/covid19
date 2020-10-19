@@ -29,7 +29,7 @@
               :class="$style.anchorLink"
               @click.prevent="onClickAnchor"
             >
-              <span>{{ $t('かかりつけ医等の医療機関では対応できない場合') }}</span>
+              <span>{{ $t('かかりつけ医を持たない方') }}</span>
               <fig-cond-sy :class="$style.fig" aria-hidden="true" />
             </a>
           </li>
@@ -39,7 +39,7 @@
               :class="$style.anchorLink"
               @click.prevent="onClickAnchor"
             >
-              <span>{{ $t('どこに相談したら良いか分からない方') }}</span>
+              <span>{{ $t('相談先に迷う方') }}</span>
               <fig-cond-anx :class="$style.fig" aria-hidden="true" />
             </a>
           </li>

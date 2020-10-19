@@ -2,7 +2,7 @@
   <div class="MainPage">
     <page-header :icon="headerItem.icon" :title="headerItem.title" :date="headerItem.date" />
     <whats-new :items="newsItems" />
-    <static-button :url="'/flow'" :text="'相談の手順を確認する'" />
+    <static-button :url="'/flow2'" :text="'相談の手順を確認する'" />
     <v-row class="DataBlock">
       <v-col cols="12" md="6" class="DataCard">
         <svg-card
@@ -68,7 +68,7 @@
       <v-col cols="12" md="6" class="DataCard">
         <time-bar-chart
           :loaded="advicecenter.loaded"
-          title="帰国者・接触者相談センター相談件数"
+          title="受診・相談センター相談件数"
           :title-id="'number-of-advicecenter'"
           :chart-id="'time-bar-chart-advicecenter'"
           :chart-data="advicecenterGraph"
