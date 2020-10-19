@@ -100,7 +100,7 @@
       </div>
       <div id="sy" :class="$style.section">
         <h4 :class="$style.sxnHeading">
-          {{ $t('かかりつけ医等の医療機関では対応できない場合')}} {{ $t('どこに相談したら良いか分からない方') }}
+          {{ $t('かかりつけ医を持たない方')}} {{ $t('相談先に迷う方') }}
         </h4>
         <!--
         <ul :class="$style.boxes">
