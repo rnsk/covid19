@@ -141,11 +141,11 @@ export default {
       })
     },
     getPatientsTableData(patients) {
-      for (const row of patients.data) {
-        row['居住地'] = this.$t(row['居住地'])
-        row['年代'] = this.$t(row['年代'])
-        row['性別'] = this.$t(row['性別'])
-      }
+      // for (const row of patients.data) {
+      //   row['居住地'] = this.$t(row['居住地'])
+      //   row['年代'] = this.$t(row['年代'])
+      //   row['性別'] = this.$t(row['性別'])
+      // }
 
       this.patientsTable = formatTable(patients.data)
       for (const header of this.patientsTable.headers) {

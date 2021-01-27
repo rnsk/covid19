@@ -171,14 +171,15 @@ class SheetApi {
         const values = Object.values(res.data.feed.entry)
         values.forEach((value) => {
           const item = {
-            No: value.gsx$no.$t,
+            // No: value.gsx$no.$t,
             リリース日: dayjs(value.gsx$公表年月日.$t, 'YYYY-MM-DD').format() ?? '不明',
             // 曜日: value.gsx$曜日.$t,
             居住地: value.gsx$患者居住地.$t,
             年代: value.gsx$患者年代.$t,
             性別: value.gsx$患者性別.$t,
-            備考: value.gsx$備考.$t,
-            退院: value.gsx$退院済フラグ.$t,
+            // 備考: value.gsx$備考.$t,
+            退院: (value.gsx$退院済フラグ.$t === "1") ? '済' : '',
+            検査地: (/県外/.test(value.gsx$no.$t)) ? '他自治体' : '県内'
           }
           items.push(item)
         });
