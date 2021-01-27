@@ -11,7 +11,7 @@
       <ul :class="$style.group">
         <li :class="[$style.box, $style.parent]">
           <div :class="$style.content">
-            <span>{{ $t('入院中*') }}</span>
+            <span>{{ $t('入院中') }}*</span>
             <span>
               <strong>{{ 入院中.toLocaleString() }}</strong>
               <span :class="$style.unit">{{ $t('人') }}</span>
@@ -51,7 +51,7 @@
         </li>
         <li :class="[$style.box]">
           <div :class="$style.content">
-            <span>{{ $t('退院*') }}</span>
+            <span>{{ $t('退院') }}*</span>
             <span>
               <strong>{{ 退院.toLocaleString() }}</strong>
               <span :class="$style.unit">{{ $t('人') }}</span>
