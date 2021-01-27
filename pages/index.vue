@@ -119,10 +119,7 @@ export default {
       await sheetApi.getInspectionsSummary().then(response => {
         this.getInspectionsData(response)
       })
-      await sheetApi
-        .graphMainSummary(
-          this.inspectionsGraph[this.inspectionsGraph.length - 1].cumulative
-        )
+      await sheetApi.graphMainSummary()
         .then(response => {
           this.getConfirmedData(response)
           this.headerItem.date = response.last_update

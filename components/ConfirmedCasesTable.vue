@@ -1,14 +1,5 @@
 <template>
   <ul :class="$style.container">
-    <li :class="[$style.box, $style.tall, $style.tested]">
-      <div :class="$style.content">
-        <span>{{ $t('検査実施件数') }}</span>
-         <span>
-          <strong>{{ 検査実施件数.toLocaleString() }}</strong>
-          <span :class="$style.unit">{{ $t('件') }}</span>
-         </span>
-       </div>
-    </li>
     <li :class="[$style.box, $style.parent]">
       <div :class="$style.content">
         <span> {{ $t('陽性者数') }} ({{ $t('累計') }}) </span>
@@ -78,10 +69,6 @@ import Vue from 'vue'
 /* eslint-disable vue/prop-name-casing */
 export default Vue.extend({
   props: {
-    検査実施件数: {
-      type: Number,
-      required: true,
-    },
     陽性者数: {
       type: Number,
       required: true,
@@ -206,26 +193,6 @@ $default-boxdiff: 35px;
       border-top: none;
       border-left: none;
       border-bottom: none;
-    }
-  }
-
-  &.tested {
-    border: $default-bdw solid;
-    position: relative;
-    padding-left: $default-boxdiff - $default-bdw * 2;
-
-    &::after {
-      content: '';
-      display: block;
-      position: absolute;
-      left: -1px;
-      bottom: 0;
-    }
-
-    > .content {
-      margin-left: -($default-boxdiff - $default-bdw * 2);
-      width: calc(100% + #{($default-boxdiff - $default-bdw * 2)});
-      border: none;
     }
   }
 }
