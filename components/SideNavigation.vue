@@ -186,7 +186,8 @@ export default {
 <style lang="scss" scoped>
 .SideNavigation {
   position: relative;
-  height: 100%;
+  min-height: 100%;
+  height: auto;
   background: $white;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15);
   &:focus {
